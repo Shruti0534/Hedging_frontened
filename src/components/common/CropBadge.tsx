@@ -1,6 +1,6 @@
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "../ui/badge";
 import { Sprout } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface CropBadgeProps {
   crop: "mustard" | "groundnut" | "soybean" | "sunflower";

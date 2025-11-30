@@ -1,16 +1,15 @@
-
-
-//import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/queryClient";
+
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { MobileNav } from "@/components/layout/MobileNav";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { LanguageToggle } from "@/components/common/LanguageToggle";
-import NotFound from "./pages/not-found";
+
+import Front from "./components/Front";
+import Language from "./components/Language";
+import Login from "./components/Login";
+
 import Dashboard from "./pages/Dashboard";
 import Markets from "./pages/Markets";
 import Hedge from "./pages/Hedge";
@@ -18,29 +17,41 @@ import Contracts from "./pages/Contracts";
 import Alerts from "./pages/Alerts";
 import Learn from "./pages/Learn";
 import Profile from "./pages/Profile";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Front from "./components/Front";
-import Language from "./components/Language";
-import Login from "./components/Login";
+import NotFound from "./pages/not-found";
+import { AppLayout } from "./components/Layout";
 
-function App() {
+export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Front />} />
-        <Route path="/language" element={<Language />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/" component={Dashboard} />
-      <Route path="/markets" component={Markets} />
-      <Route path="/hedge" component={Hedge} />
-      <Route path="/contracts" component={Contracts} />
-      <Route path="/alerts" component={Alerts} />
-      <Route path="/learn" component={Learn} />
-      <Route path="/profile" component={Profile} />
-      <Route component={NotFound} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <LanguageProvider>
+          <BrowserRouter>
+            <Routes>
+
+              {/* Public pages, no sidebar */}
+              <Route path="/" element={<Front />} />
+              <Route path="/language" element={<Language />} />
+              <Route path="/login" element={<Login />} />
+
+              {/* Sidebar pages */}
+              <Route path="/" element={<AppLayout />}>
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="markets" element={<Markets />} />
+                <Route path="hedge" element={<Hedge />} />
+                <Route path="contracts" element={<Contracts />} />
+                <Route path="alerts" element={<Alerts />} />
+                <Route path="learn" element={<Learn />} />
+                <Route path="profile" element={<Profile />} />
+
+                <Route path="*" element={<NotFound />} />
+              </Route>
+
+            </Routes>
+
+            <Toaster />
+          </BrowserRouter>
+        </LanguageProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
   );
 }
-
-export default App;

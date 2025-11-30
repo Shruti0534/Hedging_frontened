@@ -1,7 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CropBadge } from "@/components/common/CropBadge";
+
+import { Card,CardContent, CardHeader, CardTitle  } from "../ui/card";
+import { CropBadge } from "../common/CropBadge";
 import { TrendingUp, TrendingDown } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface PriceCardProps {
   crop: "mustard" | "groundnut" | "soybean" | "sunflower";

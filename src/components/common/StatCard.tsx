@@ -1,6 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LucideIcon } from "lucide-react";
-import { ReactNode } from "react";
+
+import { CardContent,Card ,CardHeader,CardTitle} from "../ui/card";
+import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 interface StatCardProps {
   title: string;
