@@ -1,80 +1,133 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [phone, setPhone] = useState("");
+  const [aadhar, setAadhar] = useState("");
+  const [pan, setPan] = useState("");
+  const [documents, setDocuments] = useState<File[]>([]);
+
+  // send OTP
+  const handleSendOtp = async () => {
+    const formattedPhone = phone.replace(/ /g, "");
+
+    if (formattedPhone.length < 10) {
+      alert("Please enter a valid phone number");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/send-otp`,
+        { phoneNumber: formattedPhone }
+      );
+
+      if (res.data.success) {
+        navigate("/otp", { state: { phone: formattedPhone } });
+      }
+    } catch (err) {
+      alert("Something went wrong while sending OTP");
+    }
+  };
+
+  const handleFileUpload = (e: any) => {
+    setDocuments([...documents, ...Array.from(e.target.files)]);
+  };
 
   return (
-    <div className="w-full h-[100dvh] bg-gradient-to-b from-blue-200 to-green-200 flex justify-center px-4 pt-6">
-      
-      <div className="bg-white w-full max-w-md rounded-3xl p-6 shadow-xl">
+    <div className="w-full h-[100dvh] bg-gradient-to-b from-blue-200 to-green-200 flex justify-center items-start p-4">
+      <div className="w-full max-w-md bg-white rounded-[30px] mt-8 p-6 shadow-xl">
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-gray-800 text-center mb-4">
+        <h1 className="text-2xl font-bold text-center mb-4">
           Login to Kisan Vyapaar
         </h1>
 
-        {/* Phone Label */}
-        <label className="text-sm font-semibold text-gray-700">
-          Phone number
-        </label>
-
         {/* Phone Input */}
-        <div className="flex items-center gap-2 border rounded-xl mt-1 px-3 py-2">
-          <span className="text-xl">🇮🇳</span>
-          <input
-            type="tel"
-            maxLength={10}
+        <label className="text-sm font-semibold">Phone number</label>
+        <div className="mt-2">
+          <PhoneInput
+            country={"in"}
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Phone number"
-            className="w-full outline-none text-gray-800"
+            onChange={setPhone}
+            inputStyle={{
+              width: "100%",
+              borderRadius: "12px",
+              height: "45px",
+            }}
+            buttonStyle={{
+              borderRadius: "12px 0 0 12px",
+            }}
           />
-          <span className="text-xl text-gray-500 cursor-pointer">🎤</span>
         </div>
 
-        {/* Get OTP Button */}
-        <button className="w-full mt-4 py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-green-500 to-blue-500 shadow">
+        {/* GET OTP Button */}
+        <button
+          onClick={handleSendOtp}
+          className="w-full mt-4 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-xl shadow-md active:scale-95 transition"
+        >
           Get OTP
         </button>
 
-        {/* KYC Button */}
-        <button className="w-full mt-3 py-3 rounded-xl text-blue-600 font-semibold border border-blue-400">
-          New User? Verify KYC
-        </button>
-
-        {/* OR Divider */}
-        <div className="flex items-center my-4">
-          <div className="flex-grow h-[1px] bg-gray-300"></div>
-          <span className="px-2 text-gray-600 font-medium">OR</span>
-          <div className="flex-grow h-[1px] bg-gray-300"></div>
+        <div className="text-center mt-4">
+          <button
+            onClick={() => navigate("/signup-kyc")}
+            className="text-blue-700 font-medium underline"
+          >
+            New User? Verify KYC
+          </button>
         </div>
 
-        {/* Aadhaar Number */}
-        <label className="text-sm font-semibold text-gray-700">Aadhaar Number</label>
+        <div className="flex items-center mt-6 mb-4">
+          <div className="flex-1 border-t"></div>
+          <span className="px-2 text-gray-500 text-sm">OR</span>
+          <div className="flex-1 border-t"></div>
+        </div>
+
+        {/* Aadhaar Input */}
+        <label className="text-sm font-semibold">Aadhaar Number</label>
         <input
           type="text"
+          value={aadhar}
           maxLength={12}
-          placeholder="Aadhaar Number"
-          className="w-full border rounded-xl px-3 py-2 mt-1 mb-3 outline-none"
+          onChange={(e) => setAadhar(e.target.value.replace(/\D/g, ""))}
+          className="w-full border rounded-xl px-4 py-3 mt-1 outline-none shadow-sm"
+          placeholder="Enter Aadhaar Number"
         />
 
-        {/* PAN Number */}
-        <label className="text-sm font-semibold text-gray-700">Pan Card (Optional)</label>
+        {/* PAN Input */}
+        <label className="text-sm font-semibold mt-4 block">
+          PAN Card (Optional)
+        </label>
         <input
           type="text"
-          placeholder="Pan Card (Optional)"
-          className="w-full border rounded-xl px-3 py-2 mt-1 mb-3 outline-none"
+          value={pan}
+          maxLength={10}
+          onChange={(e) => setPan(e.target.value.toUpperCase())}
+          className="w-full border rounded-xl px-4 py-3 mt-1 outline-none shadow-sm"
+          placeholder="PAN Number"
         />
 
         {/* Upload Documents */}
-        <label className="text-sm font-semibold text-gray-700">
+        <label className="text-sm font-semibold mt-4 block">
           Upload Documents
         </label>
 
-        <div className="border rounded-xl px-3 py-3 mt-2 cursor-pointer text-gray-600">
-          Upload Document
-        </div>
+        <input
+          type="file"
+          multiple
+          onChange={handleFileUpload}
+          className="w-full mt-2 border rounded-xl px-4 py-3 shadow-sm"
+        />
 
+        {documents.length > 0 && (
+          <div className="mt-3 text-sm text-gray-600">
+            {documents.length} file(s) selected
+          </div>
+        )}
       </div>
     </div>
   );
