@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import AppSidebar from "../app-sidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { LanguageToggle } from "@/components/common/LanguageToggle";
 
-export function AppLayout() {
+export default function AppLayout() {
   const style = {
     "--sidebar-width": "16rem",
     "--sidebar-width-icon": "3rem",

@@ -1,5 +1,14 @@
-import { Home, TrendingUp, Shield, FileText, Bell, BookOpen, User } from "lucide-react";
-import { Link, useLocation } from "wouter";
+import {
+  Home,
+  TrendingUp,
+  Shield,
+  FileText,
+  Bell,
+  BookOpen,
+  User,
+} from "lucide-react";
+// 1. CHANGE THIS IMPORT: Use react-router-dom instead of wouter
+import { Link, useLocation } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -12,46 +21,21 @@ import {
 } from "@/components/ui/sidebar";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-export function AppSidebar() {
-  const [location] = useLocation();
+ function AppSidebar() {
+  // 2. FIX HOOK: react-router-dom returns an object, not an array
+  const location = useLocation();
+  const pathname = location.pathname;
+
   const { t } = useLanguage();
 
   const menuItems = [
-    {
-      title: t("dashboard"),
-      url: "/",
-      icon: Home,
-    },
-    {
-      title: t("markets"),
-      url: "/markets",
-      icon: TrendingUp,
-    },
-    {
-      title: t("hedge"),
-      url: "/hedge",
-      icon: Shield,
-    },
-    {
-      title: t("contracts"),
-      url: "/contracts",
-      icon: FileText,
-    },
-    {
-      title: t("alerts"),
-      url: "/alerts",
-      icon: Bell,
-    },
-    {
-      title: t("learn"),
-      url: "/learn",
-      icon: BookOpen,
-    },
-    {
-      title: t("profile"),
-      url: "/profile",
-      icon: User,
-    },
+    { title: t("dashboard"), url: "/app/dashboard", icon: Home },
+    { title: t("markets"), url: "/app/markets", icon: TrendingUp },
+    { title: t("hedge"), url: "/app/hedge", icon: Shield },
+    { title: t("contracts"), url: "/app/contracts", icon: FileText },
+    { title: t("alerts"), url: "/app/alerts", icon: Bell },
+    { title: t("learn"), url: "/app/learn", icon: BookOpen },
+    { title: t("profile"), url: "/app/profile", icon: User },
   ];
 
   return (
@@ -65,8 +49,14 @@ export function AppSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild isActive={location === item.url} data-testid={`nav-${item.url.slice(1) || 'dashboard'}`}>
-                    <Link href={item.url}>
+                  <SidebarMenuButton
+                    asChild
+                    // 3. FIX LOGIC: Compare with pathname
+                    isActive={pathname === item.url}
+                    data-testid={`nav-${item.url.slice(1) || "dashboard"}`}
+                  >
+                    {/* 4. FIX LINK: Change 'href' to 'to' */}
+                    <Link to={item.url}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </Link>
@@ -80,3 +70,4 @@ export function AppSidebar() {
     </Sidebar>
   );
 }
+export default AppSidebar;

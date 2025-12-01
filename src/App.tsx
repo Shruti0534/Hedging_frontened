@@ -18,7 +18,7 @@ import Alerts from "./pages/Alerts";
 import Learn from "./pages/Learn";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/not-found";
-import { AppLayout } from "./components/Layout";
+import AppLayout from "./components/layout/Layout";
 
 export default function App() {
   return (
@@ -27,14 +27,11 @@ export default function App() {
         <LanguageProvider>
           <BrowserRouter>
             <Routes>
-
-              {/* Public pages, no sidebar */}
               <Route path="/" element={<Front />} />
               <Route path="/language" element={<Language />} />
               <Route path="/login" element={<Login />} />
 
-              {/* Sidebar pages */}
-              <Route path="/" element={<AppLayout />}>
+              <Route path="/app" element={<AppLayout />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="markets" element={<Markets />} />
                 <Route path="hedge" element={<Hedge />} />
@@ -42,10 +39,7 @@ export default function App() {
                 <Route path="alerts" element={<Alerts />} />
                 <Route path="learn" element={<Learn />} />
                 <Route path="profile" element={<Profile />} />
-
-                <Route path="*" element={<NotFound />} />
               </Route>
-
             </Routes>
 
             <Toaster />
