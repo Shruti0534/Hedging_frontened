@@ -9,6 +9,10 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Front from "./components/Front";
 import Language from "./components/Language";
 import Login from "./components/Login";
+import OTP from "./components/verifyOtp";
+import Signup from "./components/Signup";
+import Selection from "./components/Selection";
+
 
 import Dashboard from "./pages/Dashboard";
 import Markets from "./pages/Markets";
@@ -22,14 +26,11 @@ import AppLayout from "./components/layout/Layout";
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <LanguageProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Front />} />
-              <Route path="/language" element={<Language />} />
-              <Route path="/login" element={<Login />} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Front />} />
+        <Route path="/language" element={<Language />} />
+        <Route path="/login" element={<Login />} />
 
               <Route path="/app" element={<AppLayout />}>
                 <Route path="dashboard" element={<Dashboard />} />
