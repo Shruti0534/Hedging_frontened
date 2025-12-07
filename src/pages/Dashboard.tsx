@@ -70,7 +70,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-[430px] mx-auto px-4 pb-24 pt-2 ">
       <PageHeader 
         title={t("dashboard")}
         description="Monitor market prices, forecasts, and your portfolio"
@@ -78,11 +78,11 @@ export default function Dashboard() {
 
       {/* Key Metrics */}
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 ">
           {[1, 2, 3, 4].map(i => <StatCardSkeleton key={i} />)}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 ">
           <StatCard
             title="Portfolio Value"
             value="₹4.2L"
@@ -115,7 +115,7 @@ export default function Dashboard() {
       {isLoading ? (
         <>
           <h2 className="text-2xl font-semibold text-foreground">Market Prices</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 ">
             {[1, 2, 3, 4].map(i => <PriceCardSkeleton key={i} />)}
           </div>
         </>
@@ -124,7 +124,7 @@ export default function Dashboard() {
           <h2 className="text-2xl font-semibold text-foreground mb-4">
             Live Market Prices
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 ">
             {data.prices.map((price) => (
               <PriceCard key={price.crop} {...price} />
             ))}

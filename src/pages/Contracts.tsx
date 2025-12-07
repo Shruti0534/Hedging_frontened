@@ -112,7 +112,7 @@ export default function Contracts() {
 
         <TabsContent value="contracts" className="mt-6">
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 ">
               {[1, 2, 3].map(i => <StatCardSkeleton key={i} />)}
             </div>
           ) : contracts.length === 0 ? (
@@ -126,7 +126,7 @@ export default function Contracts() {
               }}
             />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 ">
               {contracts.map((contract) => (
                 <ContractCard
                   key={contract.id}

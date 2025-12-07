@@ -13,7 +13,6 @@ import OTP from "./components/verifyOtp";
 import Signup from "./components/Signup";
 import Selection from "./components/Selection";
 
-
 import Dashboard from "./pages/Dashboard";
 import Markets from "./pages/Markets";
 import Hedge from "./pages/Hedge";
@@ -22,17 +21,34 @@ import Alerts from "./pages/Alerts";
 import Learn from "./pages/Learn";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/not-found";
+
 import AppLayout from "./components/layout/Layout";
+import MobileFrame from "./components/layout/MobileFrame";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Front />} />
-        <Route path="/language" element={<Language />} />
-        <Route path="/login" element={<Login />} />
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <LanguageProvider>
+          <BrowserRouter>
+            <Routes>
+              {/* Public Screens */}
+              <Route path="/" element={<Front />} />
+              <Route path="/language" element={<Language />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/otp" element={<OTP />} />
+              <Route path="/selection" element={<Selection />} />
 
-              <Route path="/app" element={<AppLayout />}>
+              {/* App Routes inside Mobile Frame */}
+              <Route
+                path="/app"
+                element={
+                  <MobileFrame>
+                    <AppLayout />
+                  </MobileFrame>
+                }
+              >
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="markets" element={<Markets />} />
                 <Route path="hedge" element={<Hedge />} />
@@ -41,6 +57,8 @@ export default function App() {
                 <Route path="learn" element={<Learn />} />
                 <Route path="profile" element={<Profile />} />
               </Route>
+
+              <Route path="*" element={<NotFound />} />
             </Routes>
 
             <Toaster />
