@@ -4,18 +4,15 @@ const Language = () => {
   const navigate = useNavigate();
 
   const handleSelect = (lang: string) => {
-    // You can store language if needed:
-    // localStorage.setItem("app-language", lang);
-
-    navigate("/login"); // Move to Login Page
+    navigate("/login");
   };
 
   return (
-    <div className="w-full h-[100dvh] bg-gradient-to-b from-blue-200 to-green-300 flex items-center justify-center px-5">
-      
-      {/* Card */}
+    <div className="w-full h-[100dvh] bg-white flex items-center justify-center px-5">
+
+      {/* Outer Soft Color Box */}
       <div className="bg-white w-full max-w-xs rounded-3xl shadow-lg p-6">
-        
+
         {/* Heading */}
         <h1 className="text-xl font-bold text-gray-800 text-center">
           Choose Your Language
@@ -30,7 +27,7 @@ const Language = () => {
           {/* English */}
           <button
             onClick={() => handleSelect("en")}
-            className="flex flex-col items-center justify-center border rounded-2xl py-4 bg-green-100 border-green-300 active:scale-95"
+            className="flex flex-col items-center justify-center border rounded-2xl py-4 bg-green-200 border-green-300 active:scale-95"
           >
             <span className="text-3xl">🌐</span>
             <span className="text-sm font-semibold mt-1">English</span>
@@ -39,7 +36,7 @@ const Language = () => {
           {/* Hindi */}
           <button
             onClick={() => handleSelect("hi")}
-            className="flex flex-col items-center justify-center border rounded-2xl py-4 active:scale-95"
+            className="flex flex-col items-center justify-center border rounded-2xl py-4 bg-white active:scale-95"
           >
             <span className="text-3xl">हिं</span>
             <span className="text-sm font-semibold mt-1">हिन्दी</span>
@@ -48,7 +45,7 @@ const Language = () => {
           {/* Marathi */}
           <button
             onClick={() => handleSelect("mr")}
-            className="flex flex-col items-center justify-center border rounded-2xl py-4 active:scale-95"
+            className="flex flex-col items-center justify-center border rounded-2xl py-4 bg-white active:scale-95"
           >
             <span className="text-3xl">🏠</span>
             <span className="text-sm font-semibold mt-1">मराठी</span>
@@ -57,7 +54,7 @@ const Language = () => {
           {/* More */}
           <button
             onClick={() => handleSelect("more")}
-            className="flex flex-col items-center justify-center border rounded-2xl py-4 active:scale-95"
+            className="flex flex-col items-center justify-center border rounded-2xl py-4 bg-white active:scale-95"
           >
             <span className="text-3xl">⋯</span>
             <span className="text-sm font-semibold mt-1">More</span>

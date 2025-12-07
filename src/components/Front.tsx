@@ -13,7 +13,7 @@ const Front = () => {
   }, [navigate]);
 
   return (
-    <div className="w-full h-[100dvh] bg-gradient-to-b from-green-300 via-green-400 to-blue-500 flex items-center justify-center px-6">
+    <div className="w-full h-[100dvh] bg-white flex items-center justify-center px-6">
       <div className="flex flex-col items-center text-center">
 
         {/* Logo Box */}
@@ -26,11 +26,11 @@ const Front = () => {
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-bold text-white">
+        <h1 className="text-3xl font-bold text-gray-800">
           Kisan Vyapaar
         </h1>
 
-        <p className="text-white text-sm mt-1 opacity-90">
+        <p className="text-gray-600 text-sm mt-1 opacity-90">
           Empowering Farmers, Connecting Markets
         </p>
       </div>
