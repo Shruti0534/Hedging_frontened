@@ -105,7 +105,8 @@ export default function Profile() {
   };
 
   return (
-    <div className="space-y-10">
+    <div className="w-full max-w-[430px] mx-auto flex flex-col space-y-10 px-4 pb-20">
+
 
       {/* ---------------- PROFILE HEADER ---------------- */}
       <PageHeader

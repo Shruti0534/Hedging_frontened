@@ -5,7 +5,7 @@ import {
   FileText,
   User,
 } from "lucide-react";
-// 1. CHANGE THIS IMPORT: Use react-router-dom instead of wouter
+
 import { Link, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -19,8 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useLanguage } from "@/contexts/LanguageContext";
 
- function AppSidebar() {
-  // 2. FIX HOOK: react-router-dom returns an object, not an array
+export default function AppSidebar() {
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -38,20 +37,21 @@ import { useLanguage } from "@/contexts/LanguageContext";
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
+
           <SidebarGroupLabel className="text-lg font-bold px-4 py-3">
             KrishiHedge
           </SidebarGroupLabel>
+
           <SidebarGroupContent>
             <SidebarMenu>
+
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton
                     asChild
-                    // 3. FIX LOGIC: Compare with pathname
                     isActive={pathname === item.url}
-                    data-testid={`nav-${item.url.slice(1) || "dashboard"}`}
+                    data-testid={`nav-${item.url.slice(1)}`}
                   >
-                    {/* 4. FIX LINK: Change 'href' to 'to' */}
                     <Link to={item.url}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
@@ -59,11 +59,12 @@ import { useLanguage } from "@/contexts/LanguageContext";
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+
             </SidebarMenu>
           </SidebarGroupContent>
+
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   );
 }
-export default AppSidebar;
