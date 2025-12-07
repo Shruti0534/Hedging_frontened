@@ -1,3 +1,6 @@
+
+
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
@@ -13,7 +16,6 @@ import OTP from "./components/verifyOtp";
 import Signup from "./components/Signup";
 import Selection from "./components/Selection";
 
-
 import Dashboard from "./pages/Dashboard";
 import Markets from "./pages/Markets";
 import Hedge from "./pages/Hedge";
@@ -22,15 +24,27 @@ import Alerts from "./pages/Alerts";
 import Learn from "./pages/Learn";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/not-found";
+
 import AppLayout from "./components/layout/Layout";
+import Mode from "./components/Mode";
 
 export default function App() {
   return (
+    <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+    <LanguageProvider>
     <BrowserRouter>
+
       <Routes>
         <Route path="/" element={<Front />} />
         <Route path="/language" element={<Language />} />
         <Route path="/login" element={<Login />} />
+
+       <Route path="/mode" element={<Mode />} />
+        <Route path="/otp" element={<OTP/>} />
+        <Route path="/signup" element={< Signup/>} />
+        <Route path="/selection" element={< Selection/>} />
+
 
               <Route path="/app" element={<AppLayout />}>
                 <Route path="dashboard" element={<Dashboard />} />
@@ -41,6 +55,8 @@ export default function App() {
                 <Route path="learn" element={<Learn />} />
                 <Route path="profile" element={<Profile />} />
               </Route>
+
+              <Route path="*" element={<NotFound />} />
             </Routes>
 
             <Toaster />
@@ -50,3 +66,6 @@ export default function App() {
     </QueryClientProvider>
   );
 }
+
+
+

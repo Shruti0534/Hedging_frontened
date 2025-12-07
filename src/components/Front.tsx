@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import MobileFrame from "./layout/MobileFrame";
 
 const Front = () => {
   const navigate = useNavigate();
@@ -13,28 +14,31 @@ const Front = () => {
   }, [navigate]);
 
   return (
-    <div className="w-full h-[100dvh] bg-gradient-to-b from-green-300 via-green-400 to-blue-500 flex items-center justify-center px-6">
+    <MobileFrame>
+
+    <div className="w-full h-[100dvh] bg-white flex items-center justify-center px-6">
       <div className="flex flex-col items-center text-center">
 
         {/* Logo Box */}
         <div className="bg-white p-6 rounded-3xl shadow-xl mb-6">
           <img
-            src="/kisan-logo.png"
+            src="/farmer.jpeg"
             alt="Kisan Vyapaar Logo"
-            className="w-20 h-20"
+            className="w-30 h-30"
           />
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-bold text-white">
+        <h1 className="text-3xl font-bold text-gray-800">
           Kisan Vyapaar
         </h1>
 
-        <p className="text-white text-sm mt-1 opacity-90">
+        <p className="text-gray-600 text-sm mt-1 opacity-90">
           Empowering Farmers, Connecting Markets
         </p>
       </div>
     </div>
+            </MobileFrame>
   );
 };
 
