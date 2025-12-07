@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import MobileFrame from "./layout/MobileFrame";
+
 
 const OTP = () => {
   const { state } = useLocation();
@@ -29,7 +31,9 @@ const OTP = () => {
   };
 
   return (
-    <div className="w-full h-[100dvh] bg-white flex items-center justify-center p-4">
+    <MobileFrame>
+
+    <div className="w-full h-full bg-white flex items-center justify-center p-4">
       <div className="bg-white w-full max-w-md p-6 rounded-2xl shadow-xl border border-gray-200">
         
         <h1 className="text-2xl font-bold text-center mb-5 text-gray-800">
@@ -47,13 +51,14 @@ const OTP = () => {
 
         <button
           onClick={handleVerifyOtp}
-          className="w-full mt-5 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-md active:scale-95 transition"
+          className="w-full mt-5 py-3 bg-black hover:bg-background hover:text-black text-white rounded-xl shadow-md active:scale-95 transition"
         >
           Verify OTP
         </button>
 
       </div>
     </div>
+    </MobileFrame>
   );
 };
 

@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import MobileFrame from "./layout/MobileFrame";
+
 
 const Language = () => {
   const navigate = useNavigate();
@@ -8,6 +10,8 @@ const Language = () => {
   };
 
   return (
+    <MobileFrame>
+
     <div className="w-full h-[100dvh] bg-white flex items-center justify-center px-5">
 
       {/* Outer Soft Color Box */}
@@ -27,7 +31,7 @@ const Language = () => {
           {/* English */}
           <button
             onClick={() => handleSelect("en")}
-            className="flex flex-col items-center justify-center border rounded-2xl py-4 bg-green-200 border-green-300 active:scale-95"
+            className="flex flex-col items-center justify-center border rounded-2xl py-4  active:scale-95"
           >
             <span className="text-3xl">🌐</span>
             <span className="text-sm font-semibold mt-1">English</span>
@@ -63,6 +67,8 @@ const Language = () => {
         </div>
       </div>
     </div>
+    </MobileFrame>
+
   );
 };
 

@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
+import MobileFrame from "./layout/MobileFrame";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,6 +33,8 @@ const Login = () => {
   };
 
   return (
+    <MobileFrame>
+
     <div className="w-full h-[100dvh] bg-white flex justify-center items-center p-4">
 
       <div className="w-full max-w-md bg-white rounded-[30px] p-6 shadow-xl border border-gray-200">
@@ -61,13 +65,14 @@ const Login = () => {
         {/* GET OTP Button */}
         <button
           onClick={handleSendOtp}
-          className="w-full mt-5 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-md active:scale-95 transition"
+          className="w-full mt-5 py-3 bg-black hover:bg-background hover:text-black text-white rounded-xl shadow-md active:scale-95 transition"
         >
           Get OTP
         </button>
 
       </div>
     </div>
+    </MobileFrame>
   );
 };
 

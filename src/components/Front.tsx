@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import MobileFrame from "./layout/MobileFrame";
 
 const Front = () => {
   const navigate = useNavigate();
@@ -13,15 +14,17 @@ const Front = () => {
   }, [navigate]);
 
   return (
+    <MobileFrame>
+
     <div className="w-full h-[100dvh] bg-white flex items-center justify-center px-6">
       <div className="flex flex-col items-center text-center">
 
         {/* Logo Box */}
         <div className="bg-white p-6 rounded-3xl shadow-xl mb-6">
           <img
-            src="/kisan-logo.png"
+            src="/farmer.jpeg"
             alt="Kisan Vyapaar Logo"
-            className="w-20 h-20"
+            className="w-30 h-30"
           />
         </div>
 
@@ -35,6 +38,7 @@ const Front = () => {
         </p>
       </div>
     </div>
+            </MobileFrame>
   );
 };
 

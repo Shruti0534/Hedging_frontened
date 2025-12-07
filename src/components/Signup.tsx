@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import MobileFrame from "./layout/MobileFrame";
+
 
 const Signup = () => {
   const { state } = useLocation();
@@ -75,6 +77,8 @@ const Signup = () => {
   };
 
   return (
+    <MobileFrame>
+
     <div className="p-6 w-full h-[100dvh] bg-white flex justify-center items-center">
       <div className="bg-white w-full max-w-md p-6 rounded-2xl shadow">
 
@@ -157,13 +161,14 @@ const Signup = () => {
 
         <button
           onClick={handleSignup}
-          className="w-full mt-4 py-3 bg-green-600 text-white rounded-xl font-semibold"
+          className="w-full mt-4 py-3 bg-black hover:bg-white hover:text-black  text-white rounded-xl font-semibold"
         >
           Create Account
         </button>
 
       </div>
     </div>
+    </MobileFrame>
   );
 };
 
