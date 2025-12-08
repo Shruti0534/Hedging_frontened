@@ -16,7 +16,7 @@ export function MobileNav() {
     { title: t("markets"), url: "/app/markets", icon: TrendingUp },
     { title: t("hedge"), url: "/app/hedge", icon: Shield },
     { title: t("contracts"), url: "/app/contracts", icon: FileText },
-    { title: t("learn"), url: "/seekho", icon: BookOpen },
+    { title: t("learn"), url: "/app/learn", icon: BookOpen },
   ];
 
   return (

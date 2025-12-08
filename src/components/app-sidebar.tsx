@@ -34,7 +34,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
     { title: t("hedge"), url: "/app/hedge", icon: Shield },
     { title: t("contracts"), url: "/app/contracts", icon: FileText },
     { title: t("alerts"), url: "/app/alerts", icon: Bell },
-    { title: t("learn"), url: "/seekho", icon: BookOpen },
+    { title: t("learn"), url: "/app/learn", icon: BookOpen },
     { title: t("profile"), url: "/app/profile", icon: User },
   ];
 
@@ -42,13 +42,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-lg font-bold px-4 py-3 mb-4">
-            {/* <img
-                src="/logoo.png" 
-                alt="Kisan Vyapaar Logo"
-                className="w-24 h-15 rounded-full " // Adjusted size for better fit
-              /> */}
-            Trade Seekho
+          <SidebarGroupLabel className="text-lg font-bold px-4 py-3">
+            KrishiHedge
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

@@ -24,15 +24,10 @@ import Alerts from "./pages/Alerts";
 import Learn from "./pages/Learn";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/not-found";
-import ModulePage from "./components/seekho/ModulePage";
 
 import AppLayout from "./components/layout/Layout";
 import Mode from "./components/Mode";
 import Seekho from "./pages/Seekho";
-import { DailyQuiz } from "./components/seekho/DailyQuizPage";
-import Seekhodash from "./components/seekho/Seekhodash";
-import SeekhoLayout from "./components/layout/SeekhoLayout";
-
 
 export default function App() {
   return (
@@ -41,15 +36,8 @@ export default function App() {
     <LanguageProvider>
     <BrowserRouter>
 
-      
-        
-
- <Routes>
-<Route path="/seekho/module/:moduleId" element={<ModulePage />} />
-
-
+      <Routes>
         <Route path="/" element={<Front />} />
-        <Route path="/daily-quiz" element={<DailyQuiz/>} />
         <Route path="/language" element={<Language />} />
         <Route path="/login" element={<Login />} />
 
@@ -58,8 +46,6 @@ export default function App() {
         <Route path="/signup" element={< Signup/>} />
         <Route path="/selection" element={< Selection/>} />
         <Route path="/seekho" element={< Seekho/>} />
-        <Route path="/seekhoprofile" element={<Seekhodash/>}/>
-        
 
               <Route path="/app" element={<AppLayout />}>
                 <Route path="dashboard" element={<Dashboard />} />
@@ -71,11 +57,6 @@ export default function App() {
                 <Route path="profile" element={<Profile />} />
 
               </Route>
-              <Route path="/seekho" element={<SeekhoLayout />}>
-      <Route index element={<Seekho />} />
-      {/* future: <Route path="module/:id" element={<ModulePage />} /> */}
-  </Route>
-              
 
               <Route path="*" element={<NotFound />} />
             </Routes>

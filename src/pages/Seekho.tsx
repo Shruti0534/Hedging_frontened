@@ -1,7 +1,5 @@
 // Updated Seekho Page — Oilseed references removed & CSS cleaned
-//import { Header } from "../components/seekho/Header"; 
-import { useNavigate } from "react-router-dom";
-
+import { Header } from "../components/seekho/Header"; 
 import { ModuleCard } from "../components/seekho/ModuleCard";
 import { AchievementBadge } from "../components/seekho/AchievementBadge";
 import { LearningPath } from "../components/seekho/LearningPath";
@@ -20,7 +18,6 @@ import {
   Award,
   Rocket
 } from "lucide-react";
- 
 
 const modules = [
   {
@@ -110,7 +107,6 @@ export default function Seekho() {
   const overallProgress = 35;
   const completedModules = 1;
   const totalModules = 6;
-  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -129,7 +125,15 @@ export default function Seekho() {
                 strengthen your commodity hedging skills.
               </p>
 
-              
+              <div className="flex flex-wrap gap-4">
+                <Button size="lg">
+                  Continue Learning
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+                <Button variant="outline" size="lg">
+                  View Curriculum
+                </Button>
+              </div>
             </div>
 
             <div className="w-full lg:w-96">

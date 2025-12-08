@@ -14,17 +14,17 @@ export default function MobileFrame({ children }: { children: React.ReactNode })
           
           {/* LEFT SECTION: Logo (Kisan Vyapaar) + Text */}
           {/* Using a flex column structure for the image and text */}
-          <div className="flex items-center">
-             <div className="flex  items-center justify-center  -space-y-1 "> 
+          <div className="flex items-center gap-3">
+             <div className="flex  items-center justify-center -space-y-1 gap-3"> 
                 {/* Logo: Kisan Vyapaar Image */}
                 <img
-                  src="/logoo.png" 
+                  src="/project2.png" 
                   alt="Kisan Vyapaar Logo"
-                  className="w-24 h-15 rounded-full " // Adjusted size for better fit
+                  className="w-15 h-15 " // Adjusted size for better fit
                 />
                 
                 {/* Text: Kisan Vyapaar */}
-                <p className="text-2xl font-semibold text-gray-800 mt-1">
+                <p className="text-xs font-semibold text-gray-800 mt-1">
                   Trade Seekho
                 </p>
              </div>
