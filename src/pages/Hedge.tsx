@@ -99,11 +99,11 @@ export default function Hedge() {
 
       {/* Portfolio Summary */}
       {isLoading ? (
-        <div className="grid grid-cols-1 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[1, 2, 3].map(i => <StatCardSkeleton key={i} />)}
         </div>
       ) : (
-        <div className="grid grid-cols-1 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <StatCard
             title="Total P&L"
             value={`₹${Math.abs(totalProfitLoss).toLocaleString('en-IN')}`}
@@ -133,7 +133,7 @@ export default function Hedge() {
         </h2>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map(i => <StatCardSkeleton key={i} />)}
           </div>
         ) : positions.length === 0 ? (
@@ -147,7 +147,7 @@ export default function Hedge() {
             }}
           />
         ) : (
-          <div className="grid grid-cols-1 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {positions.map((position) => (
               <PositionCard
                 key={position.id}
