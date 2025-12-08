@@ -26,6 +26,7 @@ const OTP = () => {
         alert("Invalid or expired OTP");
       }
     } catch (err) {
+      console.log(err)
       alert("Error verifying OTP");
     }
   };

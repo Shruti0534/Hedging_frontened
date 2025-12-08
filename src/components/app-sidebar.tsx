@@ -3,6 +3,8 @@ import {
   TrendingUp,
   Shield,
   FileText,
+  Bell,
+  BookOpen,
   User,
 } from "lucide-react";
 // 1. CHANGE THIS IMPORT: Use react-router-dom instead of wouter
@@ -31,6 +33,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
     { title: t("markets"), url: "/app/markets", icon: TrendingUp },
     { title: t("hedge"), url: "/app/hedge", icon: Shield },
     { title: t("contracts"), url: "/app/contracts", icon: FileText },
+    { title: t("alerts"), url: "/app/alerts", icon: Bell },
+    { title: t("learn"), url: "/app/learn", icon: BookOpen },
     { title: t("profile"), url: "/app/profile", icon: User },
   ];
 

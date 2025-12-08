@@ -22,7 +22,7 @@ const Front = () => {
         {/* Logo Box */}
         <div className="bg-white p-6 rounded-3xl shadow-xl mb-6">
           <img
-            src="/farmer.jpeg"
+            src="/project2.png"
             alt="Kisan Vyapaar Logo"
             className="w-30 h-30"
           />
@@ -30,7 +30,7 @@ const Front = () => {
 
         {/* Title */}
         <h1 className="text-3xl font-bold text-gray-800">
-          Kisan Vyapaar
+          Trade Seekho
         </h1>
 
         <p className="text-gray-600 text-sm mt-1 opacity-90">

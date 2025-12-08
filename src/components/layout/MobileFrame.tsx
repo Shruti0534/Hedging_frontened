@@ -1,9 +1,10 @@
 import React from "react";
 import { GrLanguage } from "react-icons/gr";
 import { IoIosNotificationsOutline } from "react-icons/io";
-// Assuming the user has a local image named 'farmer.jpeg' for the logo
 
 export default function MobileFrame({ children }: { children: React.ReactNode }) {
+ 
+
   return (
     <div className="w-full flex justify-center bg-gray-100 min-h-screen">
       <div className="w-[430px] bg-white min-h-screen shadow-lg border-x relative">
@@ -17,14 +18,14 @@ export default function MobileFrame({ children }: { children: React.ReactNode })
              <div className="flex  items-center justify-center -space-y-1 gap-3"> 
                 {/* Logo: Kisan Vyapaar Image */}
                 <img
-                  src="/farmer.jpeg" 
+                  src="/project2.png" 
                   alt="Kisan Vyapaar Logo"
-                  className="w-10 h-10 rounded-full border border-gray-300" // Adjusted size for better fit
+                  className="w-15 h-15 " // Adjusted size for better fit
                 />
                 
                 {/* Text: Kisan Vyapaar */}
                 <p className="text-xs font-semibold text-gray-800 mt-1">
-                  Kisan Vyapaar
+                  Trade Seekho
                 </p>
              </div>
           </div>

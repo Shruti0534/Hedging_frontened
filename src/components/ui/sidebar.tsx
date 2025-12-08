@@ -53,11 +53,11 @@ function useSidebar() {
 
   return context
 }
-
 function SidebarProvider({
   defaultOpen = true,
   open: openProp,
   onOpenChange: setOpenProp,
+  side = "left",
   className,
   style,
   children,
@@ -66,6 +66,7 @@ function SidebarProvider({
   defaultOpen?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  side?: "left" | "right"
 }) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
@@ -74,6 +75,7 @@ function SidebarProvider({
   // We use openProp and setOpenProp for control from outside the component.
   const [_open, _setOpen] = React.useState(defaultOpen)
   const open = openProp ?? _open
+
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
       const openState = typeof value === "function" ? value(open) : value
@@ -89,12 +91,15 @@ function SidebarProvider({
     [setOpenProp, open]
   )
 
-  // Helper to toggle the sidebar.
-  const toggleSidebar = React.useCallback(() => {
-    return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
-  }, [isMobile, setOpen, setOpenMobile])
+  // --- FIXED FUNCTION ---
+  // This now checks if we are on mobile to decide which state to toggle
+// ✅ Correct implementation
+const toggleSidebar = React.useCallback(() => {
+  return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
+}, [isMobile, setOpen, setOpenMobile])
+  // ----------------------
 
-  // Adds a keyboard shortcut to toggle the sidebar.
+  // Adds a keyboard shortcut to toggle the sidebar (Cmd+B or Ctrl+B)
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
@@ -110,11 +115,9 @@ function SidebarProvider({
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [toggleSidebar])
 
-  // We add a state so that we can do data-state="expanded" or "collapsed".
-  // This makes it easier to style the sidebar with Tailwind classes.
   const state = open ? "expanded" : "collapsed"
 
-  const contextValue = React.useMemo<SidebarContextProps>(
+  const contextValue = React.useMemo(
     () => ({
       state,
       open,
@@ -131,7 +134,6 @@ function SidebarProvider({
     <SidebarContext.Provider value={contextValue}>
       <TooltipProvider delayDuration={0}>
         <div
-          data-slot="sidebar-wrapper"
           style={
             {
               "--sidebar-width": SIDEBAR_WIDTH,
@@ -140,7 +142,7 @@ function SidebarProvider({
             } as React.CSSProperties
           }
           className={cn(
-            "group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full",
+            "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
             className
           )}
           {...props}
@@ -151,6 +153,7 @@ function SidebarProvider({
     </SidebarContext.Provider>
   )
 }
+
 
 function Sidebar({
   side = "left",

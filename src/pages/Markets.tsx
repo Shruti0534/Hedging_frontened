@@ -84,11 +84,11 @@ export default function Markets() {
 
       {/* Market Overview Stats */}
       {isLoading ? (
-        <div className="grid grid-cols-1 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[1, 2, 3].map(i => <StatCardSkeleton key={i} />)}
         </div>
       ) : (
-        <div className="grid grid-cols-1">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <StatCard
             title="Market Cap"
             value="₹2,450Cr"
