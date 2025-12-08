@@ -34,6 +34,8 @@ import Seekhodash from "./components/seekho/Seekhodash";
 import SeekhoLayout from "./components/layout/SeekhoLayout";
 
 
+import Predictor from "./pages/Predictor";
+
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -61,6 +63,8 @@ export default function App() {
         <Route path="/seekhoprofile" element={<Seekhodash/>}/>
         
 
+        <Route path="/seekho" element={< Seekho/>} />
+        <Route path="/predict" element={< Predictor />} />
               <Route path="/app" element={<AppLayout />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="markets" element={<Markets />} />
@@ -76,6 +80,8 @@ export default function App() {
       {/* future: <Route path="module/:id" element={<ModulePage />} /> */}
   </Route>
               
+
+             
 
               <Route path="*" element={<NotFound />} />
             </Routes>
