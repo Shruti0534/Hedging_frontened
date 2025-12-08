@@ -20,6 +20,7 @@ import {
 
 import { Shield, TrendingUp, TrendingDown, DollarSign, Plus } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Crop_Predictor from "../components/hedge/crop_prediction";
 
 
 export default function Hedge() {
@@ -159,7 +160,7 @@ export default function Hedge() {
           </Button>
         }
       />
-
+      <Crop_Predictor/>
       {/* Stats */}
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
