@@ -76,6 +76,7 @@ return (
 
     {/* Ask Kisan AI Button */}
     <button onClick={() => !isTrading ? navigate("/seekho") : navigate("/app/dashboard") } className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 mt-6 rounded-2xl shadow-lg transition-all" > Continue with {!isTrading ? "Seekho" : "Vyapaar"} mode </button>
+ 
 
   </div>
 </div>
