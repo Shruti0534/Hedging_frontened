@@ -1,4 +1,5 @@
-import { Header } from "../components/seekho/Header";
+// Updated Seekho Page — Oilseed references removed & CSS cleaned
+import { Header } from "../components/seekho/Header"; 
 import { ModuleCard } from "../components/seekho/ModuleCard";
 import { AchievementBadge } from "../components/seekho/AchievementBadge";
 import { LearningPath } from "../components/seekho/LearningPath";
@@ -22,7 +23,7 @@ const modules = [
   {
     id: "basis-fundamentals",
     title: "Basis Fundamentals",
-    description: "Learn the core concepts of basis trading and local price dynamics in oilseed markets.",
+    description: "Learn the core concepts of basis trading and local price dynamics.",
     icon: <BookOpen className="w-7 h-7 text-primary" />,
     progress: 100,
     lessons: 5,
@@ -33,7 +34,7 @@ const modules = [
   {
     id: "futures-contracts",
     title: "Futures Contracts",
-    description: "Master the mechanics of futures trading for soybeans, canola, and other oilseeds.",
+    description: "Master the mechanics of futures trading across major commodity markets.",
     icon: <TrendingUp className="w-7 h-7 text-primary" />,
     progress: 60,
     lessons: 8,
@@ -53,7 +54,7 @@ const modules = [
   {
     id: "risk-management",
     title: "Risk Management",
-    description: "Build comprehensive risk frameworks for your oilseed portfolio.",
+    description: "Build comprehensive risk frameworks for diversified commodity portfolios.",
     icon: <BarChart3 className="w-7 h-7 text-muted-foreground" />,
     progress: 0,
     lessons: 6,
@@ -64,7 +65,7 @@ const modules = [
   {
     id: "market-analysis",
     title: "Market Analysis",
-    description: "Technical and fundamental analysis techniques for oilseed commodities.",
+    description: "Technical and fundamental analysis techniques for commodity markets.",
     icon: <LineChart className="w-7 h-7 text-muted-foreground" />,
     progress: 0,
     lessons: 7,
@@ -86,11 +87,11 @@ const modules = [
 ];
 
 const pathNodes = [
-  { id: 1, title: "Understanding Basis", status: "completed" as const },
-  { id: 2, title: "Futures 101", status: "completed" as const },
-  { id: 3, title: "Hedging with Futures", status: "current" as const },
-  { id: 4, title: "Options Basics", status: "locked" as const },
-  { id: 5, title: "Advanced Strategies", status: "locked" as const },
+  { id: 1, title: "Understanding Basis", status: "completed" },
+  { id: 2, title: "Futures 101", status: "completed" },
+  { id: 3, title: "Hedging with Futures", status: "current" },
+  { id: 4, title: "Options Basics", status: "locked" },
+  { id: 5, title: "Advanced Strategies", status: "locked" },
 ];
 
 const achievements = [
@@ -108,24 +109,20 @@ export default function Seekho() {
   const totalModules = 6;
 
   return (
-    <div className="min-h-screen bg-background">
-      
-      
+    <div className="min-h-screen bg-background p-8">
       <main className="container py-8">
         {/* Hero Section */}
         <section className="mb-12">
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             <div className="flex-1">
-             
-              
               <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
                 Master Commodity<br />
                 <span className="text-primary">Hedging Strategies</span>
               </h1>
-              
+
               <p className="text-lg text-muted-foreground mb-6 max-w-xl">
-                Interactive lessons, real-world scenarios, and gamified challenges to 
-                transform you into a hedging expert.
+                Interactive lessons, real-world scenarios, and gamified challenges built to
+                strengthen your commodity hedging skills.
               </p>
 
               <div className="flex flex-wrap gap-4">
@@ -176,7 +173,7 @@ export default function Seekho() {
               <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
-          
+
           <div className="flex gap-4 overflow-x-auto pb-2">
             {achievements.map((achievement, index) => (
               <AchievementBadge
@@ -190,22 +187,17 @@ export default function Seekho() {
           </div>
         </section>
 
-        {/* Main Content Grid */}
+        {/* Modules */}
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Modules */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <Rocket className="w-6 h-6 text-primary" />
               <h2 className="font-display text-xl font-bold text-foreground">Learning Modules</h2>
             </div>
-            
+
             <div className="grid md:grid-cols-2 gap-6">
               {modules.map((module, index) => (
-                <ModuleCard
-                  key={index}
-                  index={index}
-                  {...module}
-                />
+                <ModuleCard key={index} index={index} {...module} />
               ))}
             </div>
           </div>
@@ -216,7 +208,7 @@ export default function Seekho() {
               <Target className="w-6 h-6 text-level" />
               <h2 className="font-display text-xl font-bold text-foreground">Learning Path</h2>
             </div>
-            
+
             <div className="bg-card border rounded-2xl p-4">
               <LearningPath nodes={pathNodes} />
             </div>
@@ -224,20 +216,7 @@ export default function Seekho() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t mt-16 py-8">
-        <div className="container">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Wheat className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="font-display font-semibold text-foreground">OilSeed Academy</span>
-            </div>
-           
-          </div>
-        </div>
-      </footer>
+    
     </div>
   );
 }
