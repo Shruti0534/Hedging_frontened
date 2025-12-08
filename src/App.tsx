@@ -33,8 +33,7 @@ import { DailyQuiz } from "./components/seekho/DailyQuizPage";
 import Seekhodash from "./components/seekho/Seekhodash";
 import SeekhoLayout from "./components/layout/SeekhoLayout";
 
-import Seekho from "./pages/Seekho";
-import ForecastTester from "./pages/Predictor";
+
 import Predictor from "./pages/Predictor";
 
 export default function App() {
@@ -82,7 +81,7 @@ export default function App() {
   </Route>
               
 
-              </Route>
+             
 
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -8,6 +8,15 @@ const Signup = () => {
   const phone = state?.phone;
   const roleFromSelection = state?.role;
   const navigate = useNavigate();
+  const [cropInput, setCropInput] = useState({ cropName: "", cropType: "" });
+  const [crops, setCrops] = useState<any[]>([]);
+
+  const addCrop = () => {
+  if (!cropInput.cropName) return alert("Enter crop name");
+  setCrops([...crops, cropInput]);
+  setCropInput({ cropName: "", cropType: "" });
+};
+
 
   const [form, setForm] = useState({
     firstName: "",
@@ -18,7 +27,11 @@ const Signup = () => {
     line2: "",
     state: "",
     district: "",
-    pincode:""
+    pincode:"",
+    totalLandHolding: "",
+    hedgingExperience: "none",
+    educationLevel: "primary",
+    digitalLiteracy: "medium",
   });
 
   const handleChange = (e: any) => {
@@ -56,6 +69,13 @@ const Signup = () => {
           district: form.district,
           pincode: form.pincode,
         },
+        farmerProfile: {         // ⭐ new section for backend
+        totalLandHolding: form.totalLandHolding,
+        hedgingExperience: form.hedgingExperience,
+        educationLevel: form.educationLevel,
+        digitalLiteracy: form.digitalLiteracy,
+        crops,
+       },
       };
 
       const res = await axios.post(
@@ -65,6 +85,7 @@ const Signup = () => {
 
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user",res.data.user);
         alert("Signup successful!");
 
         // ⭐ UPDATED ROUTING LOGIC
@@ -81,7 +102,7 @@ const Signup = () => {
 
   return (
     <MobileFrame>
-<div className="p-6 w-full h-[100dvh] bg-white flex justify-center items-center">
+<div className="p-6 w-full min-h-screen bg-white flex justify-center">
   <div className="bg-white w-full max-w-md p-6 rounded-2xl shadow">
     <h1 className="text-2xl font-bold mb-6 text-center">Create Account</h1>
 
@@ -174,6 +195,89 @@ const Signup = () => {
       onChange={handleChange}
       className="w-full border border-gray-300 rounded-lg p-2 mt-1"
     />
+
+   {form.role === "farmer" && (
+  <>
+    {/* Total Land Holding */}
+    <label className="block text-sm font-medium text-gray-700 mt-3">Total Land Holding (Acres) *</label>
+    <input
+      type="number"
+      name="totalLandHolding"
+      placeholder="Ex: 5 acres"
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+    />
+
+    {/* Hedging + Education in same row */}
+    <div className="grid grid-cols-2 gap-3 mt-3">
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Hedging Experience *</label>
+        <select
+          name="hedgingExperience"
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+        >
+          <option value="none">None</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Education Level *</label>
+        <select
+          name="educationLevel"
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+        >
+          <option value="primary">Primary</option>
+          <option value="secondary">Secondary</option>
+          <option value="graduate">Graduate</option>
+          <option value="postgraduate">Post Graduate</option>
+        </select>
+      </div>
+    </div>
+
+    {/* Crops Section */}
+    <h2 className="text-lg font-semibold mt-6">Crops</h2>
+
+    <div className="flex flex-wrap gap-2 mb-3">
+      {crops.map((crop, index) => (
+        <span key={index} className="bg-black text-white px-3 py-1 rounded-lg text-sm">
+          {crop.cropType}
+        </span>
+      ))}
+    </div>
+
+    {/* Add crop dropdown only */}
+    <div className="mt-1">
+      <select
+        value={cropInput.cropType}
+        onChange={(e) => setCropInput({ cropName: e.target.value, cropType: e.target.value })}
+        className="w-full border border-gray-300 rounded-lg p-2"
+      >
+        <option value="">Select Crop</option>
+        <option value="soybean">Soybean</option>
+        <option value="groundnut">Groundnut</option>
+        <option value="sunflower">Sunflower</option>
+        <option value="mustard">Mustard</option>
+        <option value="sesame">Sesame</option>
+        <option value="safflower">Safflower</option>
+        <option value="other">Other</option>
+      </select>
+
+      <button
+        className="w-full bg-gray-800 text-white font-semibold mt-3 py-2 rounded-xl"
+        onClick={addCrop}
+      >
+        Add Crop
+      </button>
+    </div>
+  </>
+)}
+
+
 
     {/* Submit btn */}
     <button
