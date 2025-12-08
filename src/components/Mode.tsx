@@ -3,16 +3,21 @@ import { BsBook } from "react-icons/bs";
 import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import MobileFrame from "./layout/MobileFrame";
+import { useLanguage } from "../contexts/LanguageContext";
 
 
 const Mode = () => {
  const [isTrading, setIsTrading] = useState(false); // false = SEEKHO, true = VYAPAAR
 const navigate = useNavigate();
+const { mode, setMode } = useLanguage(); 
 
 const handleToggle = () => {
+   const newMode = mode === "seekho" ? "vyapaar" : "seekho";
+   setMode(newMode); 
  
- setIsTrading((prev) => !prev);
+   setIsTrading((prev) => !prev);
 
+<<<<<<< HEAD
 setTimeout(() => {
   if (!isTrading) {
     navigate("/app/dashboard"); // VYAPAAR
@@ -20,6 +25,15 @@ setTimeout(() => {
     navigate("/mode"); // SEEKHO
   }
 }, 350);
+=======
+// setTimeout(() => {
+//   if (newMode === "vyapaar") {
+//     // navigate("/app/dashboard"); // VYAPAAR do not navigate user must click on continue to move forword
+//   } else {
+//     // navigate("/app/learn"); // SEEKHO
+//   }
+// }, 350);
+>>>>>>> a3894e7ae227abdeb208a7e73fdd8cf52f82b1fe
 
 
 };
@@ -71,7 +85,16 @@ return (
     </div>
 
     {/* Ask Kisan AI Button */}
+<<<<<<< HEAD
     <button onClick={() => !isTrading ? navigate("/seekho") : navigate("/app/dashboard") } className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 mt-6 rounded-2xl shadow-lg transition-all" > Continue with {!isTrading ? "Seekho" : "Vyapaar"} mode </button>
+=======
+    <button
+      onClick={()=>!isTrading ? navigate("/app/dashboard"):navigate("/app/learn")}
+      className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 mt-6 rounded-2xl shadow-lg transition-all"
+    >
+      Continue with {mode === "seekho" ? "Seekho" : "Vyapaar"} mode
+    </button>
+>>>>>>> a3894e7ae227abdeb208a7e73fdd8cf52f82b1fe
 
   </div>
 </div>

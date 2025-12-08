@@ -42,8 +42,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-lg font-bold px-4 py-3">
-            KrishiHedge
+          <SidebarGroupLabel className="text-lg font-bold px-4 py-3 mb-4">
+            {/* <img
+                src="/logoo.png" 
+                alt="Kisan Vyapaar Logo"
+                className="w-24 h-15 rounded-full " // Adjusted size for better fit
+              /> */}
+            Trade Seekho
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
