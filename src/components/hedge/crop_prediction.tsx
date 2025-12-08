@@ -53,48 +53,33 @@ export default function Crop_Predictor() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4 font-sans">
       <div className="w-full max-w-lg space-y-6 rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
 
-        <div className="space-y-2 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Oilseed Price Forecast</h1>
-          <p className="text-sm text-gray-500">
-            Select a crop to generate AI-driven price predictions.
-          </p>
-        </div>
+        
+        <div className="flex items-end gap-4">
+        <h1 className="text-2xl font-bold text-gray-900">Predictor</h1>
+  {/* CROP FIELD */}
+  <div className="flex-1 space-y-1">
+    
+    <select
+      className={selectClass}
+      value={selectedCrop}
+      onChange={(e) => setSelectedCrop(e.target.value)}
+    >
+      <option value="" disabled>Select Crop</option>
+      {CROPS.map((c) => (
+        <option key={c} value={c}>{c}</option>
+      ))}
+    </select>
+  </div>
 
-        <div className="space-y-4">
-          {/* CROP DROPDOWN */}
-          <div className="space-y-1">
-            <Label>Crop</Label>
-            <select
-              className={selectClass}
-              value={selectedCrop}
-              onChange={(e) => setSelectedCrop(e.target.value)}
-            >
-              <option value="" disabled>Select Crop</option>
-              {CROPS.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* PREDICT BUTTON */}
-          <button
-            onClick={handlePredict}
-            disabled={loading}
-            className="w-full rounded-md bg-black px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
-          >
-            {loading ? (
-              <span className="flex items-center justify-center">
-                <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                Processing...
-              </span>
-            ) : (
-              "Predict Prices"
-            )}
-          </button>
-        </div>
+  {/* BUTTON */}
+  <button
+    onClick={handlePredict}
+    disabled={loading}
+    className="h-10 whitespace-nowrap rounded-md bg-black px-4 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+  >
+    {loading ? "..." : "Predict"}
+  </button>
+</div>
 
         {/* ERROR */}
         {error && (
