@@ -35,6 +35,7 @@ import SeekhoLayout from "./components/layout/SeekhoLayout";
 
 
 import Predictor from "./pages/Predictor";
+import Crop_Predictor from "./components/hedge/crop_prediction";
 
 export default function App() {
   return (
@@ -54,6 +55,7 @@ export default function App() {
         <Route path="/daily-quiz" element={<DailyQuiz/>} />
         <Route path="/language" element={<Language />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/crop" element={<Crop_Predictor />} />
 
        <Route path="/mode" element={<Mode />} />
         <Route path="/otp" element={<OTP/>} />
