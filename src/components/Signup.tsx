@@ -18,6 +18,7 @@ const Signup = () => {
     line2: "",
     state: "",
     district: "",
+    pincode:""
   });
 
   const handleChange = (e: any) => {
@@ -27,8 +28,6 @@ const Signup = () => {
   const isValid = () => {
     if (!form.firstName) return "First name is required";
     if (!form.lastName) return "Last name is required";
-    if (!form.email) return "Email is required";
-    if (!form.role) return "Role is required";
     if (!form.line1) return "Address Line 1 is required";
     if (!form.state) return "State is required";
     if (!form.district) return "District is required";
@@ -55,6 +54,7 @@ const Signup = () => {
           line2: form.line2,
           state: form.state,
           district: form.district,
+          pincode: form.pincode,
         },
       };
 
@@ -81,30 +81,111 @@ const Signup = () => {
 
   return (
     <MobileFrame>
-      <div className="p-6 w-full h-[100dvh] bg-white flex justify-center items-center">
-        <div className="bg-white w-full max-w-md p-6 rounded-2xl shadow">
-          <h1 className="text-2xl font-bold mb-4">Create Account</h1>
+<div className="p-6 w-full h-[100dvh] bg-white flex justify-center items-center">
+  <div className="bg-white w-full max-w-md p-6 rounded-2xl shadow">
+    <h1 className="text-2xl font-bold mb-6 text-center">Create Account</h1>
 
-          <input type="text" name="firstName" placeholder="First Name *" onChange={handleChange} className="input" />
-          <input type="text" name="lastName" placeholder="Last Name *" onChange={handleChange} className="input" />
-          <input type="email" name="email" placeholder="Email *" onChange={handleChange} className="input" />
-
-          <select name="role" value={form.role} onChange={handleChange} className="input">
-            <option value="farmer">Farmer</option>
-            <option value="fpo">FPO</option>
-            <option value="buyer">Buyer</option>
-          </select>
-
-          <input type="text" name="line1" placeholder="Address Line 1 *" onChange={handleChange} className="input" />
-          <input type="text" name="line2" placeholder="Address Line 2" onChange={handleChange} className="input" />
-          <input type="text" name="state" placeholder="State *" onChange={handleChange} className="input" />
-          <input type="text" name="district" placeholder="District *" onChange={handleChange} className="input" />
-
-          <button onClick={handleSignup} className="w-full mt-4 py-3 bg-black hover:bg-white hover:text-black text-white rounded-xl font-semibold">
-            Create Account
-          </button>
-        </div>
+    {/* First & Last Name */}
+    <div className="grid grid-cols-2 gap-3">
+      <div>
+        <label className="block text-sm font-medium text-gray-700">First Name *</label>
+        <input
+          type="text"
+          name="firstName"
+          placeholder="First Name"
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+        />
       </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Last Name *</label>
+        <input
+          type="text"
+          name="lastName"
+          placeholder="Last Name"
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+        />
+      </div>
+    </div>
+
+    {/* Email Optional */}
+    <label className="block text-sm font-medium text-gray-700 mt-3">Email (Optional)</label>
+    <input
+      type="email"
+      name="email"
+      placeholder="Enter email"
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+    />
+
+    {/* Address Line 1 */}
+    <label className="block text-sm font-medium text-gray-700 mt-3">Address Line 1 *</label>
+    <input
+      type="text"
+      name="line1"
+      placeholder="House no., Street, Building"
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+    />
+
+    {/* Address Line 2 */}
+    <label className="block text-sm font-medium text-gray-700 mt-3">Address Line 2 (Optional)</label>
+    <input
+      type="text"
+      name="line2"
+      placeholder="Landmark, Area"
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+    />
+
+    {/* District & Pincode in same line */}
+    <div className="grid grid-cols-2 gap-3 mt-3">
+      <div>
+        <label className="block text-sm font-medium text-gray-700">District *</label>
+        <input
+          type="text"
+          name="district"
+          placeholder="District"
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Pincode *</label>
+        <input
+          type="text"
+          name="pincode"
+          placeholder="Pincode"
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+        />
+      </div>
+    </div>
+
+    {/* State at last */}
+    <label className="block text-sm font-medium text-gray-700 mt-3">State *</label>
+    <input
+      type="text"
+      name="state"
+      placeholder="State"
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+    />
+
+    {/* Submit btn */}
+    <button
+      onClick={handleSignup}
+      className="w-full mt-5 py-3 bg-black hover:bg-white hover:text-black text-white border border-black rounded-xl font-semibold transition"
+    >
+      Create Account
+    </button>
+  </div>
+</div>
+
+
     </MobileFrame>
   );
 };
