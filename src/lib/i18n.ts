@@ -33,7 +33,11 @@ export const translations = {
     aiForecast: "AI Forecast",
     days: "Days",
     confidence: "Confidence",
-    
+    "Login to Kisan Vyapaar": "Login to Kisan Vyapaar",
+  "Phone number": "Phone number",
+  "Get OTP": "Get OTP",
+  "Please enter a valid phone number": "Please enter a valid phone number",
+  "Something went wrong while sending OTP": "Something went wrong while sending OTP",
     // Status
     active: "Active",
     draft: "Draft",
@@ -42,6 +46,7 @@ export const translations = {
     open: "Open",
     closed: "Closed",
   },
+  
   hi: {
     // Navigation
     dashboard: "डैशबोर्ड",
@@ -51,6 +56,11 @@ export const translations = {
     alerts: "मूल्य अलर्ट",
     learn: "सीखें",
     profile: "प्रोफ़ाइल",
+    "Login to Kisan Vyapaar": "किसान व्यापार में लॉगिन करें",
+  "Phone number": "फ़ोन नंबर",
+  "Get OTP": "ओटीपी प्राप्त करें",
+  "Please enter a valid phone number": "कृपया मान्य फ़ोन नंबर दर्ज करें",
+  "Something went wrong while sending OTP": "ओटीपी भेजने में समस्या हुई",
     
     // Crops
     mustard: "सरसों",
@@ -84,6 +94,10 @@ export const translations = {
     expired: "समाप्त",
     open: "खुला",
     closed: "बंद",
+    "Verify OTP": "ओटीपी सत्यापित करें",
+    "Enter OTP": "ओटीपी दर्ज करें",
+    "Invalid or expired OTP": "अमान्य या समाप्त ओटीपी",
+    "Error verifying OTP": "ओटीपी सत्यापन में त्रुटि",
   },
 } as const;
 
