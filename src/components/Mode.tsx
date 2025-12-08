@@ -71,12 +71,16 @@ return (
     </div>
 
     {/* Ask Kisan AI Button */}
-    <button
-      onClick={()=>!isTrading ? navigate("/app/dashboard"):navigate("/app/learn")}
-      className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 mt-6 rounded-2xl shadow-lg transition-all"
-    >
-      Continue with {!isTrading ? "Seekho" : "Vyapaar"} mode
-    </button>
+   <button
+  onClick={() =>
+    !isTrading
+      ? navigate("/app/learn")       // SEEKHO
+      : navigate("/app/dashboard")   // VYAPAAR
+  }
+  className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 mt-6 rounded-2xl shadow-lg transition-all"
+>
+  Continue with {!isTrading ? "Seekho" : "Vyapaar"} mode
+</button>
 
   </div>
 </div>
