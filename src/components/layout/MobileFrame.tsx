@@ -18,14 +18,14 @@ export default function MobileFrame({ children }: { children: React.ReactNode })
              <div className="flex  items-center justify-center -space-y-1 gap-3"> 
                 {/* Logo: Kisan Vyapaar Image */}
                 <img
-                  src="/farmer.jpeg" 
+                  src="/project2.png" 
                   alt="Kisan Vyapaar Logo"
-                  className="w-10 h-10 rounded-full border border-gray-300" // Adjusted size for better fit
+                  className="w-15 h-15 " // Adjusted size for better fit
                 />
                 
                 {/* Text: Kisan Vyapaar */}
                 <p className="text-xs font-semibold text-gray-800 mt-1">
-                  Kisan Vyapaar
+                  Trade Seekho
                 </p>
              </div>
           </div>
