@@ -6,16 +6,15 @@ import MobileFrame from "./layout/MobileFrame";
 
 
 const Mode = () => {
-const [isTrading, setIsTrading] = useState(false);
+ const [isTrading, setIsTrading] = useState(false); // false = SEEKHO, true = VYAPAAR
 const navigate = useNavigate();
 
 const handleToggle = () => {
-const newState = !isTrading;
-setIsTrading(newState);
-
+ 
+ setIsTrading((prev) => !prev);
 
 setTimeout(() => {
-  if (newState) {
+  if (!isTrading) {
     navigate("/app/dashboard"); // VYAPAAR
   } else {
     navigate("/app/learn"); // SEEKHO
@@ -73,9 +72,10 @@ return (
 
     {/* Ask Kisan AI Button */}
     <button
+      onClick={()=>!isTrading ? navigate("/app/dashboard"):navigate("/app/learn")}
       className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 mt-6 rounded-2xl shadow-lg transition-all"
     >
-      Ask Kisan AI
+      Continue with {!isTrading ? "Seekho" : "Vyapaar"} mode
     </button>
 
   </div>
