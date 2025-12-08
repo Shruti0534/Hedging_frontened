@@ -28,6 +28,8 @@ import NotFound from "./pages/not-found";
 import AppLayout from "./components/layout/Layout";
 import Mode from "./components/Mode";
 import Seekho from "./pages/Seekho";
+import ForecastTester from "./pages/Predictor";
+import Predictor from "./pages/Predictor";
 
 export default function App() {
   return (
@@ -46,7 +48,7 @@ export default function App() {
         <Route path="/signup" element={< Signup/>} />
         <Route path="/selection" element={< Selection/>} />
         <Route path="/seekho" element={< Seekho/>} />
-
+        <Route path="/predict" element={< Predictor />} />
               <Route path="/app" element={<AppLayout />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="markets" element={<Markets />} />
