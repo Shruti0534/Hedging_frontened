@@ -34,7 +34,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
     { title: t("hedge"), url: "/app/hedge", icon: Shield },
     { title: t("contracts"), url: "/app/contracts", icon: FileText },
     { title: t("alerts"), url: "/app/alerts", icon: Bell },
-    { title: t("learn"), url: "/app/learn", icon: BookOpen },
+    { title: t("learn"), url: "/seekho", icon: BookOpen },
     { title: t("profile"), url: "/app/profile", icon: User },
   ];
 
