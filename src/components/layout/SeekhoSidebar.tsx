@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Sliders, LogOut } from "lucide-react";
 
 function SeekhoSidebar() {
   const location = useLocation();
@@ -29,6 +30,8 @@ function SeekhoSidebar() {
     { title: t("dashboard"), url: "/app/profile", icon: Home },
     { title: t("learn"), url: "/seekho", icon: BookOpen },
     { title: t("profile"), url: "/app/profile", icon: User },
+     { title: t("Mode"), url: "/mode", icon: Sliders },
+  { title: t("Logout"), url: "/", icon: LogOut },
   ];
 
   return (

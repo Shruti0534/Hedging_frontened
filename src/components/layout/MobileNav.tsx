@@ -1,6 +1,7 @@
 // 1. CHANGE THIS IMPORT
 import { Link, useLocation } from "react-router-dom";
 import { Home, TrendingUp, Shield, FileText, BookOpen } from "lucide-react";
+import { Sliders, LogOut } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export function MobileNav() {
@@ -17,6 +18,8 @@ export function MobileNav() {
     { title: t("hedge"), url: "/app/hedge", icon: Shield },
     { title: t("contracts"), url: "/app/contracts", icon: FileText },
     { title: t("learn"), url: "/seekho", icon: BookOpen },
+    { title: t("Mode"), url: "/mode", icon: Sliders },
+  { title: t("Logout"), url: "/", icon: LogOut },
   ];
 
   return (

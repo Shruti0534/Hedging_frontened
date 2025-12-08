@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 // 1. CHANGE THIS IMPORT: Use react-router-dom instead of wouter
 import { Link, useLocation } from "react-router-dom";
+import { Sliders, LogOut } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -36,6 +37,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
     { title: t("alerts"), url: "/app/alerts", icon: Bell },
     { title: t("learn"), url: "/seekho", icon: BookOpen },
     { title: t("profile"), url: "/app/profile", icon: User },
+    { title: t("Mode"), url: "/mode", icon: Sliders },
+  { title: t("Logout"), url: "/", icon: LogOut },
   ];
 
   return (

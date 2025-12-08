@@ -1,5 +1,6 @@
 import { Home, BookOpen, Award } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { Sliders, LogOut } from "lucide-react";
 
 export default function SeekhoMobileNav() {
   return (
@@ -34,6 +35,26 @@ export default function SeekhoMobileNav() {
         <Award className="w-6 h-6" />
         <span className="text-xs">Profile</span>
       </NavLink>
+      <NavLink
+  to="/mode"
+  className={({ isActive }) =>
+    "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+  }
+>
+  <Sliders className="w-6 h-6" />
+  <span className="text-xs">Mode</span>
+</NavLink>
+<NavLink
+  to="/"
+  className={({ isActive }) =>
+    "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+  }
+>
+  <LogOut className="w-6 h-6" />
+  <span className="text-xs">Logout</span>
+</NavLink>
+
+
 
     </nav>
   );
