@@ -20,6 +20,7 @@ import {
   Award,
   Rocket
 } from "lucide-react";
+import MobileFrame from "../components/layout/MobileFrame";
  
 
 const modules = [
@@ -113,6 +114,8 @@ export default function Seekho() {
   const navigate = useNavigate();
 
   return (
+    
+
     <div className="min-h-screen bg-background p-8">
       <main className="container py-8">
         {/* Hero Section */}
@@ -214,5 +217,6 @@ export default function Seekho() {
 
     
     </div>
+    
   );
 }

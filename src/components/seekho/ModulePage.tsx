@@ -140,130 +140,136 @@ export default function ModulePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background container py-8">
-      {/* Title */}
-      <h1 className="font-display text-3xl font-bold mb-8 capitalize">{content.title}</h1>
+   <div className="min-h-screen bg-background px-4 sm:px-6 lg:px-8 py-8">
+  {/* Title */}
+  <h1 className="font-display text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 capitalize text-center sm:text-left">
+    {content.title}
+  </h1>
 
-      {/* Videos Section */}
-      <section className="mb-12">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Video Lessons</h2>
-          <span className="text-sm text-muted-foreground">{content.videos.length} total</span>
+{/* Videos Section */}
+
+  <section className="mb-8 sm:mb-12">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+      <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-0">Video Lessons</h2>
+      <span className="text-sm text-muted-foreground">{content.videos.length} total</span>
+    </div>
+
+```
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+  {content.videos.map((video) => (
+    <div
+      key={video.id}
+      className="border rounded-xl bg-card shadow-sm hover:shadow-md transition p-4 flex flex-col gap-3"
+    >
+      {/* Video Player */}
+      <div className="relative">
+        <video
+          src={video.url}
+          controls
+          poster={video.thumbnail}
+          className="rounded-lg w-full h-40 sm:h-48 md:h-56 object-cover"
+        />
+        <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+          {video.duration}
         </div>
+      </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {content.videos.map((video) => (
-            <div
-              key={video.id}
-              className="border rounded-xl bg-card shadow-sm hover:shadow-md transition p-4 flex flex-col gap-3"
-            >
-              {/* Video Player */}
-              <div className="relative">
-                <video
-                  src={video.url}
-                  controls
-                  poster={video.thumbnail}
-                  className="rounded-lg w-full h-40 object-cover"
-                />
-                <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                  {video.duration}
-                </div>
-              </div>
+      {/* Video Title */}
+      <h3 className="font-medium text-sm sm:text-base leading-tight">{video.title}</h3>
 
-              {/* Video Title */}
-              <h3 className="font-medium text-base leading-tight">{video.title}</h3>
+      {/* Quality Selector */}
+      <select className="border text-sm rounded-md px-2 py-1">
+        <option>Auto</option>
+        <option>144p</option>
+        <option>240p</option>
+        <option>360p</option>
+        <option>480p</option>
+        <option>720p HD</option>
+        <option>1080p FHD</option>
+      </select>
 
-              {/* Quality Selector (UI only) */}
-              <select className="border text-sm rounded-md px-2 py-1">
-                <option>Auto</option>
-                <option>144p</option>
-                <option>240p</option>
-                <option>360p</option>
-                <option>480p</option>
-                <option>720p HD</option>
-                <option>1080p FHD</option>
-              </select>
-
-              {/* Watch / Read Buttons */}
-              <div className="flex gap-2 mt-auto">
-                <a
-                  href={video.url}
-                  target="_blank"
-                  className="flex items-center justify-center gap-2 text-primary border rounded-md py-2 px-3 hover:bg-primary hover:text-white transition"
-                >
-                  <Play className="w-4 h-4" />
-                  Watch Video
-                </a>
-                <button
-                  onClick={() => setOpenRead(openRead === video.id ? null : video.id)}
-                  className="flex items-center justify-center gap-2 text-primary border rounded-md py-2 px-3 hover:bg-primary hover:text-white transition"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  Read
-                </button>
-              </div>
-              {openRead === video.id && (
-                <div className="mt-2 p-3 border rounded-md bg-gray-50 text-sm text-gray-800">
-                  {video.readUrl || "No content available."}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Quizzes Section */}
-     {/* Quizzes Section */}
-<section>
-  <div className="flex items-center justify-between mb-4">
-    <h2 className="text-xl font-semibold">Quizzes</h2>
-    <span className="text-sm text-muted-foreground">{content.quizzes.length} quizzes</span>
-  </div>
-
-  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    {content.quizzes.map((quiz) => {
-      const [showQuiz, setShowQuiz] = useState(false); // toggle for each quiz
-
-      return (
-        <div
-          key={quiz.id}
-          className="border rounded-xl bg-card p-5 shadow-sm hover:shadow-md transition flex flex-col gap-3"
+      {/* Watch / Read Buttons */}
+      <div className="flex flex-col sm:flex-row gap-2 mt-auto">
+        <a
+          href={video.url}
+          target="_blank"
+          className="flex items-center justify-center gap-2 text-primary border rounded-md py-2 px-3 hover:bg-primary hover:text-white transition w-full sm:w-auto"
         >
-          <div className="flex items-center gap-3">
-            <FileQuestion className="w-6 h-6 text-primary" />
-            <h3 className="font-semibold">{quiz.title}</h3>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Test your understanding with this quiz.
-          </p>
+          <Play className="w-4 h-4" /> Watch Video
+        </a>
+        <button
+          onClick={() => setOpenRead(openRead === video.id ? null : video.id)}
+          className="flex items-center justify-center gap-2 text-primary border rounded-md py-2 px-3 hover:bg-primary hover:text-white transition w-full sm:w-auto"
+        >
+          <BookOpen className="w-4 h-4" /> Read
+        </button>
+      </div>
+      {openRead === video.id && (
+        <div className="mt-2 p-3 border rounded-md bg-gray-50 text-sm text-gray-800">
+          {video.readUrl || "No content available."}
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+```
 
-          {!showQuiz ? (
+  </section>
+
+{/* Quizzes Section */}
+
+  <section>
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+      <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-0">Quizzes</h2>
+      <span className="text-sm text-muted-foreground">{content.quizzes.length} quizzes</span>
+    </div>
+
+```
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+  {content.quizzes.map((quiz) => {
+    const [showQuiz, setShowQuiz] = useState(false);
+
+    return (
+      <div
+        key={quiz.id}
+        className="border rounded-xl bg-card p-4 sm:p-5 shadow-sm hover:shadow-md transition flex flex-col gap-3"
+      >
+        <div className="flex items-center gap-2 sm:gap-3">
+          <FileQuestion className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+          <h3 className="font-semibold text-sm sm:text-base">{quiz.title}</h3>
+        </div>
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          Test your understanding with this quiz.
+        </p>
+
+        {!showQuiz ? (
+          <Button
+            variant="outline"
+            className="mt-auto flex gap-2 w-full sm:w-auto"
+            onClick={() => setShowQuiz(true)}
+          >
+            Start Quiz <ArrowRight className="w-4 h-4" />
+          </Button>
+        ) : (
+          <div className="mt-4 w-full">
+            <Quiz questions={quiz.questions} />
             <Button
               variant="outline"
-              className="mt-auto flex gap-2"
-              onClick={() => setShowQuiz(true)}
+              className="mt-2 flex gap-2 w-full sm:w-auto"
+              onClick={() => setShowQuiz(false)}
             >
-              Start Quiz <ArrowRight className="w-4 h-4" />
+              Close Quiz
             </Button>
-          ) : (
-            // Render the Quiz component when button clicked
-            <div className="mt-4">
-              <Quiz questions={quiz.questions} />
-              <Button
-                variant="outline"
-                className="mt-2 flex gap-2"
-                onClick={() => setShowQuiz(false)}
-              >
-                Close Quiz
-              </Button>
-            </div>
-          )}
-        </div>
-      );
-    })}
-  </div>
-</section>
+          </div>
+        )}
+      </div>
+    );
+  })}
+</div>
+```
 
-    </div>
+  </section>
+</div>
+
   );
 }
