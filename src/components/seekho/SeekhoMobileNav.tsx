@@ -26,7 +26,7 @@ export default function SeekhoMobileNav() {
       </NavLink>
 
       <NavLink
-        to="/app/profile"
+        to="/app/dashboard"
         className={({ isActive }) =>
           "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
         }
