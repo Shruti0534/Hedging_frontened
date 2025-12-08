@@ -37,8 +37,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
     { title: t("alerts"), url: "/app/alerts", icon: Bell },
     { title: t("learn"), url: "/seekho", icon: BookOpen },
     { title: t("profile"), url: "/app/profile", icon: User },
-    { title: t("Mode"), url: "/mode", icon: Sliders },
-  { title: t("Logout"), url: "/", icon: LogOut },
+    { title: t("mode"), url: "/mode", icon: Sliders },
+  { title: t("logout"), url: "/", icon: LogOut },
   ];
 
   return (

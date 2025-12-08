@@ -8,6 +8,8 @@ export const translations = {
     alerts: "Price Alerts",
     learn: "Learn",
     profile: "Profile",
+    mode: "Mode",       // <-- added
+    logout: "Logout", 
     
     // Crops
     mustard: "Mustard",
@@ -56,6 +58,8 @@ export const translations = {
     alerts: "मूल्य अलर्ट",
     learn: "सीखें",
     profile: "प्रोफ़ाइल",
+    mode: "मोड",        // <-- added
+    logout: "लॉग आउट", 
     "Login to Kisan Vyapaar": "किसान व्यापार में लॉगिन करें",
   "Phone number": "फ़ोन नंबर",
   "Get OTP": "ओटीपी प्राप्त करें",
