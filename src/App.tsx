@@ -97,13 +97,13 @@ export default function App() {
                       Main App Section (Farmer/General)
                      ========================== */}
                   <Route path="/app" element={<AppLayout />}>
-                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="dashboard" element={<Profile />} />
                     <Route path="markets" element={<Markets />} />
                     <Route path="hedge" element={<Hedge />} />
                     <Route path="contracts" element={<Contracts />} />
                     <Route path="alerts" element={<Alerts />} />
                     <Route path="learn" element={<Learn />} />
-                    <Route path="profile" element={<Profile />} />
+                    <Route path="profile" element={<Dashboard />} />
                   </Route>
 
                   {/* ==========================

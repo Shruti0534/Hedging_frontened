@@ -8,7 +8,7 @@ import { CropBadge } from "@/components/common/CropBadge";
 import { User, MapPin, Phone, Sprout } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-export default function Profile() {
+export default function Dashboard() {
   const { t } = useLanguage();
 
   const [farmer, setFarmer] = useState<any>(null);

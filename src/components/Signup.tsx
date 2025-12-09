@@ -90,7 +90,7 @@ const Signup = () => {
 
         // ⭐ UPDATED ROUTING LOGIC
         if (form.role === "buyer") {
-          navigate("/buyer/dash");   // BUYER → PROFILE PAGE
+          navigate("/buyer/");   // BUYER → PROFILE PAGE
         } else {
           navigate("/mode");          // FARMER or FPO
         }

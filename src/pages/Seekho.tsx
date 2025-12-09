@@ -104,7 +104,7 @@ const achievements = [
   { title: "Week Warrior", icon: "🔥", isUnlocked: true, description: "7-day learning streak" },
   { title: "Options Pro", icon: "🛡️", isUnlocked: false, description: "Complete Options module" },
   { title: "Risk Expert", icon: "⚖️", isUnlocked: false, description: "Complete Risk Management" },
-  { title: "Market Sage", icon: "🔮", isUnlocked: false, description: "Complete all modules" },
+  
 ];
 
 export default function Seekho() {
@@ -157,7 +157,7 @@ export default function Seekho() {
           View All <ArrowRight className="w-3 h-3" />
         </Button>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex  gap-2">
         {achievements.map((achievement, index) => (
           <AchievementBadge
             key={index}

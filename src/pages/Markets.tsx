@@ -239,14 +239,14 @@ export default function Markets() {
     : generate30DayHistory(6200);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       <PageHeader
         title={t("markets")}
         description="Live oilseed market prices and analytics"
       />
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
        
         <StatCard
           title="Top Gainer"
