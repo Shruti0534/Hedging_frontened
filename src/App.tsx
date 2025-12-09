@@ -36,12 +36,15 @@ import SeekhoLayout from "./components/layout/SeekhoLayout";
 
 import Predictor from "./pages/Predictor";
 import Crop_Predictor from "./components/hedge/crop_prediction";
+import TraderPredictor from "./pages/Trade";
+import { CropProvider } from "./contexts/CropContext";
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
     <TooltipProvider>
     <LanguageProvider>
+    <CropProvider>
     <BrowserRouter>
 
       
@@ -56,6 +59,8 @@ export default function App() {
         <Route path="/language" element={<Language />} />
         <Route path="/login" element={<Login />} />
         <Route path="/crop" element={<Crop_Predictor />} />
+        <Route path="/trade" element={<TraderPredictor/>} />
+
 
        <Route path="/mode" element={<Mode />} />
         <Route path="/otp" element={<OTP/>} />
@@ -90,6 +95,7 @@ export default function App() {
 
             <Toaster />
           </BrowserRouter>
+        </CropProvider>
         </LanguageProvider>
       </TooltipProvider>
     </QueryClientProvider>
