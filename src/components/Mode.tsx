@@ -66,7 +66,8 @@ return (
       {/* Centered Toggle */}
       <button
         onClick={handleToggle}
-        className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
+        className={`absolute left-1/2 top-[80%]
+ -translate-x-1/2 -translate-y-1/2 
           w-24 h-12 rounded-full flex items-center px-1 transition-all duration-300 shadow-xl
           ${isTrading ? "bg-gray-800 justify-end" : "bg-black justify-start"}`}
       >
