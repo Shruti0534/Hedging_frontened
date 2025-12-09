@@ -114,7 +114,7 @@ export default function Predictor() {
   const selectClass = "flex h-10 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all";
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4 font-sans">
+    <div className="flex  p-4 font-sans">
       <div className="w-full max-w-lg space-y-6 rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
         
         {/* Header */}

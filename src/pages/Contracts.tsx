@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { FileText, Plus } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Predictor from "./Predictor";
 
 // Mock data
 const mockContracts = [
@@ -103,7 +104,7 @@ export default function Contracts() {
           </Button>
         }
       />
-
+      <Predictor/>
       <Tabs defaultValue="contracts" className="w-full">
         <TabsList>
           <TabsTrigger value="contracts" data-testid="tab-contracts-list">Contracts</TabsTrigger>
