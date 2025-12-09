@@ -48,17 +48,15 @@ export default function TraderPredictor() {
   const labelStyle = "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2 block text-gray-700";
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-6 font-sans">
+    <div className="flex p-6 font-sans">
       <div className="w-full max-w-md space-y-6 rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
         
         {/* HEADER */}
         <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-            Quick Price Forecast
+           Commodity Prices 
           </h1>
-          <p className="text-sm text-gray-500">
-            Prediction for <span className="font-semibold text-gray-700">{form.mandi}, {form.district}</span>
-          </p>
+          
         </div>
 
         {/* INPUT SECTION */}

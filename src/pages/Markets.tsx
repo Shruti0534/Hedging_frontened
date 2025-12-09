@@ -232,12 +232,7 @@ export default function Markets() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <StatCard 
-            title="Market Cap" 
-            value="₹2,450Cr" 
-            icon={Activity} 
-            footer="Simulated value" 
-        />
+       
         <StatCard
           title="Top Gainer"
           value={`${topGainer.name} +${topGainer.percentChange.toFixed(2)}%`}
