@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { ContractCard } from "@/components/contracts/ContractCard";
 import { ContractForm } from "@/components/contracts/ContractForm";
@@ -19,71 +19,85 @@ import { FileText, Plus } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Predictor from "./Predictor";
 import TraderPredictor from "./Trade";
+import axios from "axios";
 
-// Mock data
-const mockContracts = [
-  {
-    id: "1",
-    crop: "mustard" as const,
-    quantity: 5000,
-    agreedPrice: 6500,
-    buyerName: "Agro Traders Ltd",
-    deliveryDate: new Date("2025-03-15"),
-    status: "active" as const,
-    blockchainHash: "0x8f7e2c3a9b1d5e4f6c8a2b3d9e1f5a6c7b8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3",
-  },
-  {
-    id: "2",
-    crop: "soybean" as const,
-    quantity: 3000,
-    agreedPrice: 4800,
-    buyerName: "Farmers Cooperative",
-    deliveryDate: new Date("2025-02-28"),
-    status: "draft" as const,
-  },
-];
-
-const mockBlockchainTxs = [
-  {
-    id: "tx1",
-    transactionHash: "0x8f7e2c3a9b1d5e4f6c8a2b3d9e1f5a6c7b8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3",
-    previousHash: "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b",
-    blockNumber: 12547,
-    timestamp: new Date("2025-01-15T10:30:00"),
-    data: { action: "contract_created", contractId: "1", status: "draft" },
-  },
-  {
-    id: "tx2",
-    transactionHash: "0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b",
-    previousHash: "0x8f7e2c3a9b1d5e4f6c8a2b3d9e1f5a6c7b8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3",
-    blockNumber: 12548,
-    timestamp: new Date("2025-01-16T14:20:00"),
-    data: { action: "contract_activated", contractId: "1", status: "active" },
-  },
-];
 
 export default function Contracts() {
   const { t } = useLanguage();
 
   // Placeholder React Query structure - will be replaced with actual useQuery hooks
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error] = useState<Error | null>(null);
-  const [contracts, setContracts] = useState(mockContracts);
+  const [contracts, setContracts] = useState<any[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [ledger, setLedger] = useState<any[]>([]);
+  const [loadingLedger, setLoadingLedger] = useState(false);
 
-  const handleCreateContract = (values: any) => {
-    const newContract = {
-      id: Date.now().toString(),
+
+const handleCreateContract = async (values: any) => {
+  try {
+    setIsLoading(true)
+    const payload = {
       crop: values.cropType,
-      quantity: parseInt(values.quantity),
-      agreedPrice: parseFloat(values.agreedPrice),
-      buyerName: values.buyerName,
-      deliveryDate: values.deliveryDate,
-      status: "draft" as const,
+      quantity: Number(values.quantity),
+      agreedPrice: Number(values.agreedPrice),
+      marginAmount: values.marginAmount.toString(),
     };
-    setContracts([...contracts, newContract]);
+
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/contracts/create-contract`,
+      payload,
+      { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+    );
+
+    setContracts((prev:any) => [...prev, res.data]);
     setIsDialogOpen(false);
-  };
+    alert("Trade created on blockchain successfully!");
+
+  } catch (error: any) {
+    console.error(error);
+    alert(error.response?.data?.error || "Failed to create blockchain contract");
+  }
+  finally{
+    setIsLoading(false)
+  }
+};
+
+  useEffect(() => {
+    const loadContracts = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/contracts/get-contract`,
+          { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        );
+        setContracts(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    loadContracts();
+  }, []);
+
+  const fetchLedger = async () => {
+  try {
+    setLoadingLedger(true);
+    const res = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/contracts/ledger`,
+      { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+    );
+    setLedger(res.data);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoadingLedger(false);
+  }
+};
+
+useEffect(() => {
+  fetchLedger();
+}, []);
+
+
 
   const handleViewDetails = (id: string) => {
     console.log("View contract details:", id);
@@ -151,7 +165,7 @@ export default function Contracts() {
         </TabsContent>
 
         <TabsContent value="ledger" className="mt-6">
-          <BlockchainLedger contractId="1" transactions={mockBlockchainTxs} />
+          <BlockchainLedger contractId="all" transactions={ledger} isLoading={loadingLedger} />
         </TabsContent>
       </Tabs>
 
@@ -166,6 +180,7 @@ export default function Contracts() {
           <ContractForm
             onSubmit={handleCreateContract}
             onCancel={() => setIsDialogOpen(false)}
+            isLoading={isLoading}
           />
         </DialogContent>
       </Dialog>
