@@ -1,5 +1,3 @@
-
-
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
@@ -7,6 +5,8 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { CropProvider } from "@/contexts/CropContext";
+import { MarketPriceProvider } from "@/contexts/MarketPriceContext";
 
 // Buyer components
 import BuyerLayout from "./components/buyer/BuyerLayout";
@@ -18,7 +18,7 @@ import BuyerProfile from "./components/buyer/BuyerProfile";
 import SeekhoLayout from "./components/layout/SeekhoLayout";
 import Seekho from "./pages/Seekho";
 import ModulePage from "./components/seekho/ModulePage";
-import {DailyQuiz} from "./components/seekho/DailyQuizPage";
+import { DailyQuiz } from "./components/seekho/DailyQuizPage";
 import Seekhodash from "./components/seekho/Seekhodash";
 
 // Other pages
@@ -31,6 +31,7 @@ import Selection from "./components/Selection";
 
 import Predictor from "./pages/Predictor";
 import Crop_Predictor from "./components/hedge/crop_prediction";
+import TraderPredictor from "./pages/Trade";
 
 import AppLayout from "./components/layout/Layout";
 import Dashboard from "./pages/Dashboard";
@@ -41,64 +42,78 @@ import Alerts from "./pages/Alerts";
 import Learn from "./pages/Learn";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/not-found";
-
 import Mode from "./components/Mode";
-import BuyerDash from "./components/buyer/Dash";
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <LanguageProvider>
-          <BrowserRouter>
-            <Routes>
-              
-              {/* Public / Auth Routes */}
-              <Route path="/" element={<Front />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/otp" element={<OTP />} />
-              <Route path="/selection" element={<Selection />} />
-              <Route path="/language" element={<Language />} />
-              <Route path="/daily-quiz" element={<DailyQuiz />} />
-              <Route path="/crop" element={<Crop_Predictor />} />
-              <Route path="/mode" element={<Mode />} />
+          <MarketPriceProvider>
+            <CropProvider>
+              <BrowserRouter>
+                {/* Toaster should be inside providers but can be anywhere in Router */}
+                <Toaster />
+                
+                <Routes>
+                  {/* ==========================
+                      Public / Auth Routes 
+                     ========================== */}
+                  <Route path="/" element={<Front />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/otp" element={<OTP />} />
+                  <Route path="/selection" element={<Selection />} />
+                  <Route path="/language" element={<Language />} />
+                  <Route path="/mode" element={<Mode />} />
 
-              {/* Buyer Routes */}
-              <Route path="/buyer" element={<BuyerLayout />}>
-                <Route index element={<Dash />} />           {/* /buyer */}
-                <Route path="dash" element={<BuyerDash />} /> {/* /buyer/orders */}
-                <Route path="orders" element={<Orders />} /> {/* /buyer/orders */}
-                <Route path="profile" element={<BuyerProfile />} /> {/* /buyer/profile */}
-              </Route>
+                  {/* ==========================
+                      Standalone Tools 
+                     ========================== */}
+                  <Route path="/daily-quiz" element={<DailyQuiz />} />
+                  <Route path="/crop" element={<Crop_Predictor />} />
+                  <Route path="/trade" element={<TraderPredictor />} />
+                  <Route path="/predict" element={<Predictor />} />
 
-              {/* Seekho Routes */}
-              <Route path="/seekho" element={<SeekhoLayout />}>
-                <Route index element={<Seekho />} />                  {/* /seekho */}
-                <Route path="module/:moduleId" element={<ModulePage />} />
-                <Route path="profile" element={<Seekhodash />} />    {/* /seekho/profile */}
-              </Route>
+                  {/* ==========================
+                      Buyer Section (Nested Layout)
+                     ========================== */}
+                  <Route path="/buyer" element={<BuyerLayout />}>
+                    <Route index element={<Dash />} />        {/* /buyer */}
+                    <Route path="orders" element={<Orders />} /> {/* /buyer/orders */}
+                    <Route path="profile" element={<BuyerProfile />} /> {/* /buyer/profile */}
+                  </Route>
 
-              {/* App / Dashboard Routes */}
-              <Route path="/app" element={<AppLayout />}>
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="markets" element={<Markets />} />
-                <Route path="hedge" element={<Hedge />} />
-                <Route path="contracts" element={<Contracts />} />
-                <Route path="alerts" element={<Alerts />} />
-                <Route path="learn" element={<Learn />} />
-                <Route path="profile" element={<Profile />} />
-              </Route>
+                  {/* ==========================
+                      Seekho Section (Nested Layout)
+                     ========================== */}
+                  <Route path="/seekho" element={<SeekhoLayout />}>
+                    <Route index element={<Seekho />} />               {/* /seekho */}
+                    <Route path="module/:moduleId" element={<ModulePage />} />
+                    <Route path="profile" element={<Seekhodash />} />    {/* /seekho/profile */}
+                  </Route>
 
-              {/* Predictor */}
-              <Route path="/predict" element={<Predictor />} />
+                  {/* ==========================
+                      Main App Section (Farmer/General)
+                     ========================== */}
+                  <Route path="/app" element={<AppLayout />}>
+                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="markets" element={<Markets />} />
+                    <Route path="hedge" element={<Hedge />} />
+                    <Route path="contracts" element={<Contracts />} />
+                    <Route path="alerts" element={<Alerts />} />
+                    <Route path="learn" element={<Learn />} />
+                    <Route path="profile" element={<Profile />} />
+                  </Route>
 
-              {/* Redirect unknown paths to NotFound */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-
-            <Toaster />
-          </BrowserRouter>
+                  {/* ==========================
+                      Fallbacks
+                     ========================== */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </CropProvider>
+          </MarketPriceProvider>
         </LanguageProvider>
       </TooltipProvider>
     </QueryClientProvider>
