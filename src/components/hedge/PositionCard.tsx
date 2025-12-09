@@ -11,9 +11,12 @@ interface PositionCardProps {
   positionType: "long" | "short";
   instrumentType: "futures" | "options";
   quantity: number;
-  entryPrice: number;
+  entryPrice?: number;
+  strikePrice?: number;
+  premium?: number;
   currentPrice: number;
   status: "open" | "closed";
+  deliveryDate: string;
   onClose: (id: string) => void;
 }
 
@@ -24,15 +27,20 @@ export function PositionCard({
   instrumentType,
   quantity,
   entryPrice,
+  strikePrice,
+  premium,
   currentPrice,
   status,
+  deliveryDate,
   onClose,
 }: PositionCardProps) {
-  const profitLoss = positionType === "long"
-    ? (currentPrice - entryPrice) * quantity
-    : (entryPrice - currentPrice) * quantity;
-  
-  const profitLossPercentage = ((profitLoss / (entryPrice * quantity)) * 100);
+
+  const profitLoss =
+    positionType === "long"
+      ? (currentPrice - (entryPrice ?? strikePrice ?? 0)) * quantity
+      : ((entryPrice ?? strikePrice ?? 0) - currentPrice) * quantity;
+
+  const profitLossPercentage = ((profitLoss / ((entryPrice ?? strikePrice ?? 1) * quantity)) * 100);
   const isProfit = profitLoss >= 0;
 
   return (
@@ -45,7 +53,7 @@ export function PositionCard({
             ) : (
               <ArrowDownRight className="h-4 w-4 text-destructive" />
             )}
-            {positionType === "long" ? "Long" : "Short"} {instrumentType}
+            {instrumentType === "futures" ? (positionType === "long" ? "Long" : "Short") : (positionType === "long" ? "Call" : "Put")} {instrumentType}
           </CardTitle>
           <div className="flex items-center gap-2">
             <CropBadge crop={crop} />
@@ -53,22 +61,54 @@ export function PositionCard({
           </div>
         </div>
         <Badge variant={isProfit ? "default" : "destructive"} className="text-xs">
-          {isProfit ? "+" : ""}₹{Math.abs(profitLoss).toLocaleString('en-IN')}
+          {isProfit ? "+" : ""}₹{Math.abs(profitLoss).toLocaleString("en-IN")}
         </Badge>
       </CardHeader>
+
       <CardContent className="space-y-3">
-        <div className="grid grid-cols-3 gap-3 text-sm">
+        <div className="grid grid-cols-4 gap-3 text-sm">
           <div className="space-y-1">
-            <div className="text-muted-foreground">Quantity</div>
+            <div className="text-muted-foreground">Qty</div>
             <div className="font-semibold">{quantity} kg</div>
           </div>
-          <div className="space-y-1">
-            <div className="text-muted-foreground">Entry</div>
-            <div className="font-semibold">₹{entryPrice}</div>
-          </div>
+
+          {/* FUTURES ENTRY PRICE */}
+          {instrumentType === "futures" && (
+            <div className="space-y-1">
+              <div className="text-muted-foreground">Entry</div>
+              <div className="font-semibold">₹{entryPrice}</div>
+            </div>
+          )}
+
+          {/* OPTIONS STRIKE */}
+          {instrumentType === "options" && (
+            <div className="space-y-1">
+              <div className="text-muted-foreground">Strike</div>
+              <div className="font-semibold">₹{strikePrice}</div>
+            </div>
+          )}
+
           <div className="space-y-1">
             <div className="text-muted-foreground">Current</div>
             <div className="font-semibold">₹{currentPrice}</div>
+          </div>
+
+          {instrumentType === "options" && (
+            <div className="space-y-1">
+              <div className="text-muted-foreground">Premium</div>
+              <div className="font-semibold">₹{premium}/kg</div>
+            </div>
+          )}
+
+          <div className="space-y-1">
+            <div className="text-muted-foreground">Expiry</div>
+            <div className="font-semibold">
+              {new Date(deliveryDate).toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })}
+            </div>
           </div>
         </div>
 
@@ -81,21 +121,22 @@ export function PositionCard({
               ) : (
                 <TrendingDown className="h-4 w-4 text-destructive" />
               )}
-              <span className={`text-lg font-bold ${isProfit ? 'text-chart-1' : 'text-destructive'}`}>
-                {isProfit ? "+" : ""}₹{Math.abs(profitLoss).toLocaleString('en-IN')}
+              <span className={`text-lg font-bold ${isProfit ? "text-chart-1" : "text-destructive"}`}>
+                {isProfit ? "+" : ""}₹{Math.abs(profitLoss).toLocaleString("en-IN")}
               </span>
-              <span className={`text-sm ${isProfit ? 'text-chart-1' : 'text-destructive'}`}>
+              <span className={`text-sm ${isProfit ? "text-chart-1" : "text-destructive"}`}>
                 ({profitLossPercentage >= 0 ? "+" : ""}{profitLossPercentage.toFixed(2)}%)
               </span>
             </div>
           </div>
         </div>
       </CardContent>
+
       {status === "open" && (
         <CardFooter className="pt-4 border-t">
-          <Button 
-            variant="outline" 
-            className="w-full" 
+          <Button
+            variant="outline"
+            className="w-full"
             onClick={() => onClose(id)}
             data-testid={`button-close-position-${id}`}
           >
