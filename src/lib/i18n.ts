@@ -60,7 +60,7 @@ export const translations = {
     profile: "प्रोफ़ाइल",
     mode: "मोड",        // <-- added
     logout: "लॉग आउट", 
-    "Login to Kisan Vyapaar": "किसान व्यापार में लॉगिन करें",
+    "Login to Trade Seekho": "Trade Seekho में लॉगिन करें",
   "Phone number": "फ़ोन नंबर",
   "Get OTP": "ओटीपी प्राप्त करें",
   "Please enter a valid phone number": "कृपया मान्य फ़ोन नंबर दर्ज करें",

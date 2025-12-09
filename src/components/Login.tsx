@@ -40,7 +40,7 @@ const Login = () => {
 
           {/* Title */}
           <h1 className="text-2xl font-bold text-center mb-4 text-gray-800">
-            {t("Login to Kisan Vyapaar")}
+            {t("Login to Trade Seekho")}
           </h1>
 
           {/* Phone Input */}
