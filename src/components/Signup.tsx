@@ -85,9 +85,10 @@ const Signup = () => {
 
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user",res.data.user);
-        alert("Signup successful!");
+        localStorage.setItem("user", JSON.stringify(res.data.user));
 
+        alert("Signup successful!");
+       
         // ⭐ UPDATED ROUTING LOGIC
         if (form.role === "buyer") {
           navigate("/buyer/");   // BUYER → PROFILE PAGE

@@ -40,4 +40,19 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+<<<<<<< Updated upstream
 })
+=======
+
+  server: {
+    allowedHosts: [
+      "https://59b43e1b58eb.ngrok-free.app"
+    ],
+    port: 5174,
+    host: true
+  }
+})
+
+
+
+>>>>>>> Stashed changes

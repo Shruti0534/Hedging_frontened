@@ -2,9 +2,9 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { CropBadge } from "@/components/common/CropBadge";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { FileText, Hash, Calendar, User, Package } from "lucide-react";
 import { format } from "date-fns";
+import { approveByFPO } from "../../api/fpo";
 
 interface ContractCardProps {
   id: string;
@@ -16,6 +16,10 @@ interface ContractCardProps {
   status: "draft" | "active" | "completed" | "expired";
   blockchainHash?: string;
   onViewDetails: (id: string) => void;
+  // Added these to the interface so TypeScript knows they exist
+  onAccept?: (id: string) => void;
+  onReject?: (id: string) => void;
+  onNegotiate?: (id: string) => void;
 }
 
 export function ContractCard({
@@ -28,11 +32,29 @@ export function ContractCard({
   status,
   blockchainHash,
   onViewDetails,
+  onAccept,
+  onReject,
+  onNegotiate
 }: ContractCardProps) {
   const totalValue = quantity * agreedPrice;
 
+  // Safe user retrieval to prevent crashes or SSR hydration issues
+  let role = "";
+  try {
+    if (typeof window !== "undefined") {
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        role = user.role;
+      }
+    }
+  } catch (error) {
+    console.error("Error parsing user from local storage", error);
+  }
+ const contractId = "1355hih";
+ const fpoId = "792r029"
   return (
-    <Card className="hover-elevate" data-testid={`card-contract-${id}`}>
+    <Card className="hover-elevate transition-all duration-200" data-testid={`card-contract-${id}`}>
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-3">
         <div className="space-y-1">
           <CardTitle className="text-lg flex items-center gap-2">
@@ -45,6 +67,7 @@ export function ContractCard({
           </div>
         </div>
       </CardHeader>
+      
       <CardContent className="space-y-3">
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div className="space-y-1">
@@ -94,15 +117,55 @@ export function ContractCard({
           </div>
         )}
       </CardContent>
-      <CardFooter className="pt-4 border-t">
-        <Button 
-          variant="outline" 
-          className="w-full" 
-          onClick={() => onViewDetails(id)}
-          data-testid={`button-view-contract-${id}`}
-        >
-          View Details
-        </Button>
+
+      <CardFooter className="pt-0">
+        <div className="w-full space-y-3">
+          {role === "farmer" && (
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => onViewDetails(id)}
+            >
+              View Details
+            </Button>
+          )}
+
+          {role === "fpo" && (
+            <div className="flex gap-2 w-full">
+              <Button
+                className="flex-1"
+                onClick={() => approveByFPO(contractId, fpoId )}
+              >
+                Accept
+                </Button>
+              <Button
+                
+                className="flex-1"
+                onClick={() => onReject?.(id)}
+              >
+                Reject
+              </Button>
+            </div>
+          )}
+
+          {role === "buyer" && (
+            <div className="flex gap-2 w-full">
+              <Button
+                className="flex-1"
+                onClick={() => onAccept?.(id)}
+              >
+                Accept
+              </Button>
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => onNegotiate?.(id)}
+              >
+                Negotiate
+              </Button>
+            </div>
+          )}
+        </div>
       </CardFooter>
     </Card>
   );
