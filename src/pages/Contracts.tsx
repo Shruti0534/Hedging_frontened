@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/dialog";
 import { FileText, Plus } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Predictor from "./Predictor";
+import TraderPredictor from "./Trade";
 
 // Mock data
 const mockContracts = [
@@ -103,7 +105,17 @@ export default function Contracts() {
           </Button>
         }
       />
+  <div className="flex flex-col lg:flex-row items-center justify-center gap-6 p-2 lg:p-4">
+  <div className="w-full lg:w-1/2">
+    <Predictor />
+  </div>
 
+  <div className="w-full lg:w-1/2">
+    <TraderPredictor />
+  </div>
+</div>
+
+      
       <Tabs defaultValue="contracts" className="w-full">
         <TabsList>
           <TabsTrigger value="contracts" data-testid="tab-contracts-list">Contracts</TabsTrigger>
