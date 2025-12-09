@@ -17,7 +17,7 @@ export interface TraderInput {
   }
   
   // 3. The Fetch Function
-  const API_URL = "http://localhost:8000"; // Ensure this matches your FastAPI port
+  const API_URL = import.meta.env.VITE_ML_URL; // Ensure this matches your FastAPI port
   
   export const getTraderPrediction = async (input: TraderInput): Promise<TraderResponse> => {
     const response = await fetch(`${API_URL}/predict_trade_price`, {

@@ -32,22 +32,23 @@ import { cn } from "@/lib/utils";
 
 const contractFormSchema = z.object({
   cropType: z.enum(["mustard", "groundnut", "soybean", "sunflower"]),
-  quantity: z.string().min(1, "Quantity is required"),
-  agreedPrice: z.string().min(1, "Price is required"),
-  buyerName: z.string().min(1, "Buyer name is required"),
-  deliveryDate: z.date({
-    required_error: "Delivery date is required",
-  }),
+  quantity: z.string().min(1),
+  agreedPrice: z.string().min(1),
+  buyerName: z.string().min(1),
+  marginAmount: z.string().min(1, "Margin is required"),
+  deliveryDate: z.date(),
 });
+
 
 type ContractFormValues = z.infer<typeof contractFormSchema>;
 
 interface ContractFormProps {
   onSubmit: (values: ContractFormValues) => void;
   onCancel: () => void;
+  isLoading?: boolean;
 }
 
-export function ContractForm({ onSubmit, onCancel }: ContractFormProps) {
+export function ContractForm({ onSubmit, onCancel, isLoading }: ContractFormProps) {
   const { t } = useLanguage();
 
   const form = useForm<ContractFormValues>({
@@ -59,6 +60,7 @@ export function ContractForm({ onSubmit, onCancel }: ContractFormProps) {
       buyerName: "",
     },
   });
+  
 
   return (
     <Form {...form}>
@@ -191,12 +193,32 @@ export function ContractForm({ onSubmit, onCancel }: ContractFormProps) {
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="marginAmount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Margin Amount (ETH in wei)</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="10000000000000000"
+                  {...field}
+                  data-testid="input-contract-margin"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+
         <div className="flex justify-end gap-2 pt-4">
           <Button type="button" variant="outline" onClick={onCancel} data-testid="button-cancel-contract">
             {t("cancel")}
           </Button>
           <Button type="submit" data-testid="button-save-contract">
-            Create Contract
+            {isLoading ? "Loading...":"Create Contract"} 
           </Button>
         </div>
       </form>

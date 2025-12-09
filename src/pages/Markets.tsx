@@ -8,6 +8,7 @@ import { StatCard } from "@/components/common/StatCard";
 // import { ErrorState } from "@/components/common/ErrorState";
 import { TrendingUp, TrendingDown, Activity } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useMarketPrices } from "@/contexts/MarketPriceContext";
 
 // ---------------------------------------------------------
 // 1) Types & Interfaces
@@ -186,17 +187,31 @@ const loadMarket = (): MarketState => {
 export default function Markets() {
   const { t } = useLanguage();
   const [market, setMarket] = useState<MarketState>(() => loadMarket());
+  const { setPrices } = useMarketPrices();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMarket(prev => {
+        const updated = stepMarket(prev);
+  
+        // push latest current prices to global store
+        const priceMap: any = {};
+        Object.values(updated).forEach(item => {
+          priceMap[item.symbol] = item.current;
+        });
+        setPrices(priceMap);
+  
+        return updated;
+      });
+    }, 10000);
+  
+    return () => clearInterval(interval);
+  }, []);
   
   // Note: isLoading was unused in original logic, removed for cleanup unless needed for async fetching later.
   // const [isLoading] = useState(false);
 
   // Run simulation every 10s
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMarket(prev => stepMarket(prev));
-    }, 10000);
-    return () => clearInterval(interval);
-  }, []);
+ 
 
   // Calculate stats
   const { topGainer, topLoser } = getTopMoves(market);

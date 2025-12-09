@@ -96,7 +96,7 @@ export function PositionCard({
           {instrumentType === "options" && (
             <div className="space-y-1">
               <div className="text-muted-foreground">Premium</div>
-              <div className="font-semibold">₹{premium}/kg</div>
+              <div className="font-semibold">₹{premium}</div>
             </div>
           )}
 
