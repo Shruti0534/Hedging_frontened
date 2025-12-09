@@ -116,107 +116,86 @@ export default function Seekho() {
   return (
     
 
-    <div className="min-h-screen bg-background p-8">
-      <main className="container py-8">
-        {/* Hero Section */}
-        <section className="mb-12">
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
-            <div className="flex-1">
-              <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
-                Master Commodity<br />
-                <span className="text-primary">Hedging Strategies</span>
-              </h1>
+   <div className="min-h-screen bg-background p-4">
+  <main className="max-w-screen-md mx-auto py-6 flex flex-col gap-8">
 
-              <p className="text-lg text-muted-foreground mb-6 max-w-xl">
-                Interactive lessons, real-world scenarios, and gamified challenges built to
-                strengthen your commodity hedging skills.
-              </p>
+    {/* Hero Section */}
+    <section className="flex flex-col gap-4">
+      <h1 className="font-display text-3xl font-bold text-foreground leading-snug">
+        Master Commodity <br />
+        <span className="text-primary">Hedging Strategies</span>
+      </h1>
+      <p className="text-base text-muted-foreground">
+        Interactive lessons, real-world scenarios, and gamified challenges built to strengthen your commodity hedging skills.
+      </p>
+      <div className="w-full">
+        <DailyChallenge />
+      </div>
+    </section>
 
-              
-            </div>
+    {/* Progress Overview */}
+    <section className="bg-card border rounded-2xl p-4 flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <h2 className="font-display text-lg font-bold text-foreground">Your Progress</h2>
+        <p className="text-sm text-muted-foreground">{completedModules} of {totalModules} modules completed</p>
+      </div>
+      <div className="text-left">
+        <p className="font-display text-2xl font-bold text-foreground">{overallProgress}%</p>
+        <p className="text-xs text-muted-foreground">Overall completion</p>
+      </div>
+      <Progress value={overallProgress} className="h-3" indicatorClassName="bg-primary" />
+    </section>
 
-            <div className="w-full lg:w-96">
-              <DailyChallenge />
-            </div>
-          </div>
-        </section>
+    {/* Achievements */}
+    <section className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <h2 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+          <Award className="w-5 h-5 text-xp" />
+          Achievements
+        </h2>
+        <Button variant="ghost" size="sm" className="flex items-center gap-1">
+          View All <ArrowRight className="w-3 h-3" />
+        </Button>
+      </div>
+      <div className="flex flex-col gap-2">
+        {achievements.map((achievement, index) => (
+          <AchievementBadge
+            key={index}
+            title={achievement.title}
+            icon={achievement.icon}
+            isUnlocked={achievement.isUnlocked}
+            description={achievement.description}
+          />
+        ))}
+      </div>
+    </section>
 
-        {/* Progress Overview */}
-        <section className="mb-12">
-          <div className="bg-card border rounded-2xl p-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-              <div>
-                <h2 className="font-display text-xl font-bold text-foreground">Your Progress</h2>
-                <p className="text-muted-foreground">
-                  {completedModules} of {totalModules} modules completed
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="font-display text-3xl font-bold text-foreground">{overallProgress}%</p>
-                <p className="text-sm text-muted-foreground">Overall completion</p>
-              </div>
-            </div>
-            <Progress value={overallProgress} className="h-4" indicatorClassName="bg-primary" />
-          </div>
-        </section>
+    {/* Modules */}
+    <section className="flex flex-col gap-4">
+      <h2 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+        <Rocket className="w-5 h-5 text-primary" />
+        Learning Modules
+      </h2>
+      <div className="flex flex-col gap-4">
+        {modules.map((module, index) => (
+          <ModuleCard key={index} index={index} {...module} />
+        ))}
+      </div>
+    </section>
 
-        {/* Achievements */}
-        <section className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <Award className="w-6 h-6 text-xp" />
-              <h2 className="font-display text-xl font-bold text-foreground">Achievements</h2>
-            </div>
-            <Button variant="ghost" size="sm">
-              View All
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </div>
+    {/* Learning Path */}
+    <section className="flex flex-col gap-4">
+      <h2 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+        <Target className="w-5 h-5 text-level" />
+        Learning Path
+      </h2>
+      <div className="bg-card border rounded-2xl p-4">
+        <LearningPath nodes={pathNodes} />
+      </div>
+    </section>
 
-          <div className="flex gap-4 overflow-x-auto pb-2">
-            {achievements.map((achievement, index) => (
-              <AchievementBadge
-                key={index}
-                title={achievement.title}
-                icon={achievement.icon}
-                isUnlocked={achievement.isUnlocked}
-                description={achievement.description}
-              />
-            ))}
-          </div>
-        </section>
+  </main>
+</div>
 
-        {/* Modules */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <Rocket className="w-6 h-6 text-primary" />
-              <h2 className="font-display text-xl font-bold text-foreground">Learning Modules</h2>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {modules.map((module, index) => (
-                <ModuleCard key={index} index={index} {...module} />
-              ))}
-            </div>
-          </div>
-
-          {/* Learning Path */}
-          <div>
-            <div className="flex items-center gap-3 mb-6">
-              <Target className="w-6 h-6 text-level" />
-              <h2 className="font-display text-xl font-bold text-foreground">Learning Path</h2>
-            </div>
-
-            <div className="bg-card border rounded-2xl p-4">
-              <LearningPath nodes={pathNodes} />
-            </div>
-          </div>
-        </div>
-      </main>
-
-    
-    </div>
-    
   );
 }

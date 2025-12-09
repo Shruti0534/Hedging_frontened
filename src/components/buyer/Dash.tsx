@@ -1,100 +1,134 @@
-import React from "react";
+import React, { FC, useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Search, ChevronRight, Bell, Plus } from 'lucide-react';
+import { PageHeader } from '@/components/common/PageHeader';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
+// --- Mock Contract Data ---
+interface ContractData {
+  id: string;
+  crop: string;
+  quantity: number;
+  agreedPrice: number;
+  buyerName: string;
+  status: 'Active' | 'Draft';
+  deliveryDate: Date;
+}
 
-import { FiSearch, FiHeart, FiPlus, FiHome, FiUser, FiShoppingCart } from "react-icons/fi";
+const mockContracts: ContractData[] = [
+  { id: '1', crop: 'Mustard', quantity: 5000, agreedPrice: 6500, buyerName: 'Agro Traders Ltd', status: 'Active', deliveryDate: new Date('2025-03-15') },
+  { id: '2', crop: 'Soybean', quantity: 3000, agreedPrice: 4800, buyerName: 'Farmers Cooperative', status: 'Draft', deliveryDate: new Date('2025-02-28') },
+];
 
-export default function Dashboard() {
-  const { t } = useLanguage();
+// --- Contract Card ---
+const ContractCard: FC<{ contract: ContractData; onViewDetails?: (id: string) => void }> = ({ contract, onViewDetails }) => (
+  <Card className="hover:shadow-lg transition-shadow duration-300">
+    <CardHeader className="p-4">
+      <CardTitle className="text-lg font-bold">{contract.crop}</CardTitle>
+      <CardDescription className="text-sm text-muted-foreground">
+        Buyer: {contract.buyerName} | Qty: {contract.quantity} units
+      </CardDescription>
+    </CardHeader>
+    <CardContent className="p-4 space-y-2">
+      <p>Agreed Price: ₹{contract.agreedPrice}</p>
+      <p>Delivery Date: {contract.deliveryDate.toDateString()}</p>
+      <div className="flex justify-between items-center mt-2">
+        <Badge variant={contract.status === 'Active' ? 'default' : 'secondary'}>
+          {contract.status}
+        </Badge>
+        <Button variant="outline" size="sm" onClick={() => onViewDetails?.(contract.id)}>
+          View Details <ChevronRight className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
+    </CardContent>
+  </Card>
+);
+
+// --- Main Buyer Dashboard ---
+const BuyerDash: FC = () => {
+  const [contracts, setContracts] = useState(mockContracts);
+  const [search, setSearch] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleViewDetails = (id: string) => {
+    console.log('View contract details:', id);
+  };
+
+  const filteredContracts = contracts.filter(c => c.crop.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="w-full min-h-screen bg-white text-black max-w-[430px] mx-auto pb-24 relative">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 md:p-8">
 
-      {/* Header */}
-      <div className="w-full bg-black text-white py-5 px-5 rounded-b-3xl shadow">
-        <h1 className="text-xl font-semibold text-center">{t("dashboard") || "Buyer Dashboard"}</h1>
-      </div>
+      {/* Page Header with Filter Buttons */}
+      <PageHeader
+        title="Buyer Dashboard"
+        description="Manage forward contracts and track your crop deals"
+        action={
+          <div className="flex gap-2 flex-wrap">
+            <Button variant="outline" className="text-sm px-4 py-2 h-auto flex items-center" onClick={() => setIsDialogOpen(true)}>
+              Organic <Plus className="ml-2 h-4 w-4" />
+            </Button>
+            <Button variant="outline" className="text-sm px-4 py-2 h-auto flex items-center" onClick={() => setIsDialogOpen(true)}>
+              Bulk <Plus className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        }
+      />
 
       {/* Search */}
-      <div className="px-5 mt-4">
-        <div className="flex items-center gap-2 bg-gray-200 rounded-xl px-4 py-2">
-          <FiSearch className="text-gray-600" />
-          <input
-            type="text"
-            placeholder="Browse Crops"
-            className="bg-transparent outline-none text-black w-full"
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-lg shadow-md mb-6">
+        <div className="relative w-full md:w-1/3">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input 
+            placeholder="Search Contracts..." 
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="pl-10 h-10 w-full"
           />
         </div>
       </div>
 
-      {/* Filter buttons */}
-      <div className="px-5 mt-4 flex gap-3">
-        <button className="px-5 py-2 bg-black text-white rounded-full text-sm font-semibold">
-          Organic
-        </button>
-        <button className="px-5 py-2 border border-black rounded-full text-sm font-semibold">
-          Bulk
-        </button>
+      {/* Live Bids Ticker */}
+      <div className="flex items-center p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg text-sm mb-6 shadow-sm">
+        <Bell className="h-5 w-5 text-yellow-600 mr-3" />
+        <span className="font-bold text-yellow-800 mr-2">Live Bids Ticker:</span>
+        <span className="text-yellow-700">Real-time status | Sec-time status | Price bid</span>
       </div>
 
-      {/* Live bids */}
-      <div className="px-5 mt-5">
-        <div className="w-full bg-gray-100 border border-gray-300 p-4 rounded-xl">
-          <p className="font-semibold text-black">Live Bids Ticker</p>
-          <p className="text-sm text-gray-600 mt-1">
-            Real-time updates • Latest bids • Price movements
-          </p>
-        </div>
-      </div>
+      <Separator className="my-6" />
 
-      {/* Browse Crops */}
-      <div className="px-5 mt-6 flex justify-between items-center">
-        <h2 className="text-lg font-semibold">Browse Crops</h2>
-        <button className="text-sm underline">View All</button>
-      </div>
-
-      {/* Crop cards carousel */}
-      <div className="px-5 mt-4 flex gap-4 overflow-x-auto pb-7 no-scrollbar">
-        {[1, 2, 3, 4].map((i) => (
-          <div
-            key={i}
-            className="min-w-[160px] bg-gray-100 border border-gray-300 rounded-2xl p-4 relative"
-          >
-            <FiHeart className="absolute top-3 right-3" />
-
-            {/* Image Placeholder */}
-            <div className="w-full h-24 bg-gray-300 rounded-xl" />
-
-            <p className="mt-3 font-semibold">Tomato</p>
-            <p className="text-sm text-gray-600">Fresh & Organic</p>
-
-            <button className="mt-3 text-sm underline">Tap for Details</button>
-          </div>
+      {/* Contracts Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {filteredContracts.map(contract => (
+          <ContractCard key={contract.id} contract={contract} onViewDetails={handleViewDetails} />
         ))}
+        {filteredContracts.length === 0 && <p className="text-center col-span-full text-gray-500">No contracts found.</p>}
       </div>
 
-      {/* Floating Add button */}
-      <button className="fixed bottom-24 right-5 w-14 h-14 bg-black text-white rounded-full flex items-center justify-center shadow-xl">
-        <FiPlus size={26} />
-      </button>
-
-      {/* Bottom Navbar */}
-      <div className="fixed bottom-0 w-full max-w-[430px] bg-white border-t border-gray-300 py-2 flex justify-around">
-        <div className="flex flex-col items-center">
-          <FiHome size={22} />
-          <span className="text-xs mt-1">Home</span>
-        </div>
-
-        <div className="flex flex-col items-center">
-          <FiShoppingCart size={24} />
-          <span className="text-xs mt-1">Trade</span>
-        </div>
-
-        <div className="flex flex-col items-center">
-          <FiUser size={22} />
-          <span className="text-xs mt-1">Profile</span>
-        </div>
-      </div>
-
+      {/* Dialog for creating contract */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Create New Contract</DialogTitle>
+            <DialogDescription>
+              Add a new forward contract to track your crop sales
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <Input placeholder="Crop Name" />
+            <Input placeholder="Quantity" type="number" />
+            <Input placeholder="Agreed Price" type="number" />
+            <Input placeholder="Buyer Name" />
+            <Button className="w-full mt-2" onClick={() => setIsDialogOpen(false)}>Create</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
-}
+};
+
+export default BuyerDash;
