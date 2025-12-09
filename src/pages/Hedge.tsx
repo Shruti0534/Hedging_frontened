@@ -43,25 +43,20 @@ export default function Hedge() {
       // Process initial values
       setPositions(
         res.data.hedges.map((pos: any) => {
-          // If backend had price movement, use it
-          // Otherwise start at entry + 20
           const basePrice =
-            pos.currentPrice && pos.currentPrice !== pos.entryPrice
-              ? pos.currentPrice
-              : pos.entryPrice + 20;
-
-          const profitLoss =
-            pos.positionType === "long"
-              ? (basePrice - pos.entryPrice) * pos.quantity
-              : (pos.entryPrice - basePrice) * pos.quantity;
+            pos.instrumentType === "futures"
+              ? (pos.currentPrice && pos.currentPrice !== pos.entryPrice
+                  ? pos.currentPrice
+                  : pos.entryPrice + 20)
+              : pos.currentPrice + (Math.floor(Math.random() * 20) - 10); // simulate spot movement for options
 
           return {
             ...pos,
             currentPrice: basePrice,
-            profitLoss,
           };
         })
       );
+
     } catch (err: any) {
       setError(err);
     } finally {
@@ -81,10 +76,31 @@ export default function Hedge() {
           const randomChange = Math.floor(Math.random() * 20) - 10; // -10 to +10
           const updatedPrice = Math.max(0, pos.currentPrice + randomChange);
 
-          const profitLoss =
-            pos.positionType === "long"
-              ? (updatedPrice - pos.entryPrice) * pos.quantity
-              : (pos.entryPrice - updatedPrice) * pos.quantity;
+          let profitLoss = 0;
+
+          if (pos.instrumentType === "futures") {
+            profitLoss =
+              pos.positionType === "long"
+                ? (pos.currentPrice - pos.entryPrice) * pos.quantity
+                : (pos.entryPrice - pos.currentPrice) * pos.quantity;
+          }
+
+          if (pos.instrumentType === "options") {
+            const premiumPerKg = pos.premium; // already stored
+            const totalPremium = premiumPerKg * pos.quantity;
+            const spot = pos.currentPrice;
+
+            if (pos.positionType === "long") {
+              // Call option
+              profitLoss = (spot - pos.strikePrice - premiumPerKg) * pos.quantity;
+            } else {
+              // Put option
+              profitLoss = (pos.strikePrice - spot - premiumPerKg) * pos.quantity;
+            }
+
+            if (profitLoss < 0) profitLoss = -totalPremium; // max loss limited to premium
+          }
+
 
           return {
             ...pos,
@@ -98,27 +114,31 @@ export default function Hedge() {
     return () => clearInterval(interval);
   }, []);
 
-  // Create new hedge
-  const handleExecuteTrade = async (values: any) => {
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/hedge/create-hedge`,
-        {
-          crop: values.cropType,
-          positionType: values.positionType,
-          instrumentType: values.instrumentType,
-          quantity: values.quantity,
-          entryPrice: values.entryPrice,
-        },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-      );
+      // Create new hedge
+    const handleExecuteTrade = async (values: any) => {
+      const payload: any = {
+        crop: values.cropType,
+        instrumentType: values.instrumentType,
+        positionType: values.positionType, // long = call, short = put
+        quantity: values.quantity,
+        deliveryDate: values.deliveryDate,
+      };
+
+      if (values.instrumentType === "futures") {
+        payload.entryPrice = values.entryPrice;
+      } else {
+        payload.strikePrice = values.strikePrice;
+        payload.premium = values.premium;
+      }
+
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/hedge/create-hedge`, payload, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
 
       setIsDialogOpen(false);
       fetchPositions();
-    } catch (error: any) {
-      alert(error.response?.data?.message || "Failed to create hedge");
-    }
-  };
+    };
+
 
   // Close hedge and lock profit/loss
   const handleClosePosition = async (id: string, profitLoss: number) => {

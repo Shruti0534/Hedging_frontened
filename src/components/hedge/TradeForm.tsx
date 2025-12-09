@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,11 +24,15 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const tradeFormSchema = z.object({
   cropType: z.enum(["mustard", "groundnut", "soybean", "sunflower"]),
-  positionType: z.enum(["long", "short"]),
   instrumentType: z.enum(["futures", "options"]),
-  quantity: z.string().min(1, "Quantity is required"),
-  entryPrice: z.string().min(1, "Entry price is required"),
+  positionType: z.enum(["long", "short"]), // Reused for options also
+  quantity: z.string().min(1),
+  entryPrice: z.string().optional(),   // Remove required
+  strikePrice: z.string().optional(),  // Add
+  premium: z.string().optional(),      // Add
+  deliveryDate: z.string().min(1),
 });
+
 
 type TradeFormValues = z.infer<typeof tradeFormSchema>;
 
@@ -49,12 +52,18 @@ export function TradeForm({ onSubmit, onCancel }: TradeFormProps) {
       instrumentType: "futures",
       quantity: "",
       entryPrice: "",
+      deliveryDate: "", // default empty
+      premium:"",
+      strikePrice:""
+
     },
   });
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+
+        {/* CROP */}
         <FormField
           control={form.control}
           name="cropType"
@@ -63,7 +72,7 @@ export function TradeForm({ onSubmit, onCancel }: TradeFormProps) {
               <FormLabel>Crop</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger data-testid="select-trade-crop">
+                  <SelectTrigger>
                     <SelectValue placeholder="Select crop" />
                   </SelectTrigger>
                 </FormControl>
@@ -79,6 +88,7 @@ export function TradeForm({ onSubmit, onCancel }: TradeFormProps) {
           )}
         />
 
+        {/* POSITION TYPE */}
         <FormField
           control={form.control}
           name="positionType"
@@ -92,37 +102,24 @@ export function TradeForm({ onSubmit, onCancel }: TradeFormProps) {
                   className="grid grid-cols-2 gap-4"
                 >
                   <div>
-                    <RadioGroupItem
-                      value="long"
-                      id="long"
-                      className="peer sr-only"
-                      data-testid="radio-position-long"
-                    />
+                    <RadioGroupItem value="long" id="long" className="peer sr-only" />
                     <Label
                       htmlFor="long"
-                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover-elevate peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover-elevate peer-data-[state=checked]:border-primary cursor-pointer"
                     >
-                      <div className="text-sm font-medium">Long (Buy)</div>
-                      <div className="text-xs text-muted-foreground mt-1">
-                        Profit when price rises
-                      </div>
+                      <span className="text-sm font-medium">{form.watch("instrumentType") === "futures"?"Long (Buy)":"Call(Buy)"}</span>
+                      <span className="text-xs text-muted-foreground mt-1">Profit when price rises</span>
                     </Label>
                   </div>
+
                   <div>
-                    <RadioGroupItem
-                      value="short"
-                      id="short"
-                      className="peer sr-only"
-                      data-testid="radio-position-short"
-                    />
+                    <RadioGroupItem value="short" id="short" className="peer sr-only" />
                     <Label
                       htmlFor="short"
-                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover-elevate peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover-elevate peer-data-[state=checked]:border-primary cursor-pointer"
                     >
-                      <div className="text-sm font-medium">Short (Sell)</div>
-                      <div className="text-xs text-muted-foreground mt-1">
-                        Profit when price falls
-                      </div>
+                      <span className="text-sm font-medium">{form.watch("instrumentType") === "futures"?"Sell(Buy)":"Put(Sell)"}</span>
+                      <span className="text-xs text-muted-foreground mt-1">Profit when price falls</span>
                     </Label>
                   </div>
                 </RadioGroup>
@@ -132,6 +129,7 @@ export function TradeForm({ onSubmit, onCancel }: TradeFormProps) {
           )}
         />
 
+        {/* INSTRUMENT TYPE */}
         <FormField
           control={form.control}
           name="instrumentType"
@@ -140,7 +138,7 @@ export function TradeForm({ onSubmit, onCancel }: TradeFormProps) {
               <FormLabel>Instrument</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger data-testid="select-trade-instrument">
+                  <SelectTrigger>
                     <SelectValue placeholder="Select instrument" />
                   </SelectTrigger>
                 </FormControl>
@@ -149,16 +147,14 @@ export function TradeForm({ onSubmit, onCancel }: TradeFormProps) {
                   <SelectItem value="options">Options</SelectItem>
                 </SelectContent>
               </Select>
-              <FormDescription>
-                Futures: obligation to buy/sell at fixed price. Options: right but not obligation.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
+        {/* QUANTITY & PRICE */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
+        <FormField
             control={form.control}
             name="quantity"
             render={({ field }) => (
@@ -169,7 +165,24 @@ export function TradeForm({ onSubmit, onCancel }: TradeFormProps) {
                     type="number"
                     placeholder="1000"
                     {...field}
-                    data-testid="input-trade-quantity"
+                      onChange={(e) => {
+                        field.onChange(e); 
+
+                        const qty = Number(e.target.value);
+
+                        // If empty or <= 0, reset premium
+                        if (!qty || qty <= 0) {
+                          form.setValue("premium", "");
+                          return;
+                        }
+
+                        if (form.watch("instrumentType") === "options") {
+                          const basePremium = 10;
+                          const premiumPerKg = qty*basePremium;
+                          form.setValue("premium", String(premiumPerKg));
+                        }
+                      }}
+
                   />
                 </FormControl>
                 <FormMessage />
@@ -177,31 +190,89 @@ export function TradeForm({ onSubmit, onCancel }: TradeFormProps) {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="entryPrice"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Entry Price (₹/kg)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="6500"
-                    {...field}
-                    data-testid="input-trade-price"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {/* FUTURES: Entry Price */}
+          {form.watch("instrumentType") === "futures" && (
+            <FormField
+              control={form.control}
+              name="entryPrice"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Entry Price (₹/kg)</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="6500" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
         </div>
 
+        
+      {/* OPTIONS: Strike Price + Premium */}
+      {form.watch("instrumentType") === "options" && (
+        <div className="flex gap-8">
+          <FormField
+            control={form.control}
+            name="strikePrice"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Strike Price (₹/kg)</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="5000" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+        <FormField
+              control={form.control}
+              name="premium"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Premium (₹/kg)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      readOnly
+                      disabled
+                      placeholder="Auto calculated"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+        </div>
+      )}
+
+        {/* DELIVERY DATE FIELD */}
+        <FormField
+          control={form.control}
+          name="deliveryDate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Expiry / Closing Date</FormLabel>
+              <FormControl>
+                <Input
+                  type="date"
+                  min={new Date().toISOString().split("T")[0]} // prevent selecting past days
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* BUTTONS */}
         <div className="flex justify-end gap-2 pt-4">
-          <Button type="button" variant="outline" onClick={onCancel} data-testid="button-cancel-trade">
+          <Button type="button" variant="outline" onClick={onCancel}>
             {t("cancel")}
           </Button>
-          <Button type="submit" data-testid="button-execute-trade">
+          <Button type="submit">
             Execute Trade
           </Button>
         </div>
