@@ -23,7 +23,6 @@ import Seekhodash from "./features/seekho/Seekhodash";
 
 // Other pages
 import Front from "./features/onboarding/Front";
-import Language from "./features/onboarding/Language";
 import PhoneLogin from "./features/onboarding/PhoneLogin";
 import OTP from "./features/onboarding/verifyOtp";
 import Selection from "./features/onboarding/Selection";
@@ -97,7 +96,7 @@ export default function App() {
                   <Route path="/phone-login" element={<PhoneLogin />} />
                   <Route path="/otp" element={<OTP />} />
                   <Route path="/selection" element={<Selection />} />
-                  <Route path="/language" element={<Language />} />
+                  <Route path="/language" element={<Navigate to="/" replace />} />
                   <Route path="/mode" element={<Mode />} />
 
                   {/* ==========================
