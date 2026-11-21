@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Link, Navigate, Outlet, Routes, Route } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 
@@ -45,6 +45,25 @@ import Profile from "./features/dashboard/pages/Profile";
 import NotFound from "./pages/not-found";
 import Mode from "./features/onboarding/Mode";
 
+const isDemo = import.meta.env.VITE_DEMO_MODE === "true";
+
+function DemoLayout() {
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="border-b">
+        <nav aria-label="Demo" className="mx-auto flex max-w-7xl flex-wrap gap-5 px-5 py-4 text-sm font-semibold">
+          <Link to="/seekho">Trade Seekho</Link>
+          <Link to="/daily-quiz">Daily quiz</Link>
+          <Link to="/app/markets">Simulated markets</Link>
+        </nav>
+      </header>
+      <main className="mx-auto max-w-7xl px-5 py-6">
+        <Outlet />
+      </main>
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -55,8 +74,19 @@ export default function App() {
               <BrowserRouter>
                 {/* Toaster should be inside providers but can be anywhere in Router */}
                 <Toaster />
-                <Micc />
+                {!isDemo && <Micc />}
                 
+                {isDemo ? (
+                  <Routes>
+                    <Route element={<DemoLayout />}>
+                      <Route path="/seekho" element={<Seekho />} />
+                      <Route path="/seekho/module/:moduleId" element={<ModulePage />} />
+                      <Route path="/daily-quiz" element={<DailyQuiz />} />
+                      <Route path="/app/markets" element={<Markets />} />
+                    </Route>
+                    <Route path="*" element={<Navigate to="/seekho" replace />} />
+                  </Routes>
+                ) : (
                 <Routes>
                   {/* ==========================
                       Public / Auth Routes 
@@ -114,6 +144,7 @@ export default function App() {
                      ========================== */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
+                )}
               </BrowserRouter>
             </CropProvider>
           </MarketPriceProvider>

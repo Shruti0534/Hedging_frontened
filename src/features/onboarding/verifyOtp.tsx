@@ -9,15 +9,13 @@ import { backendApiUrl } from "../../api/backendUrl";
 const OTP = () => {
   const { state } = useLocation();
   const phone = state?.phone;
-  const developmentOtp = state?.developmentOtp;
-  const [otp, setOtp] = useState(
-    import.meta.env.DEV && developmentOtp ? String(developmentOtp) : ""
-  );
+  const testOtp = state?.testOtp;
+  const [otp, setOtp] = useState(testOtp ? String(testOtp) : "");
   const [isVerifying, setIsVerifying] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   const autoVerifyStarted = useRef(false);
-  const developmentNoticeShown = useRef(false);
+  const testOtpNoticeShown = useRef(false);
 
   const handleVerifyOtp = useCallback(async (code = otp) => {
     if (!phone || code.length !== 6 || isVerifying) return;
@@ -65,24 +63,24 @@ const OTP = () => {
       return;
     }
 
-    if (import.meta.env.DEV && developmentOtp) {
-      if (!developmentNoticeShown.current) {
-        developmentNoticeShown.current = true;
-        toast({
-          title: "Development OTP received",
-          description: `Your demo code is ${developmentOtp}. Verifying automatically...`,
-        });
-      }
+    if (testOtp && !testOtpNoticeShown.current) {
+      testOtpNoticeShown.current = true;
+      toast({
+        title: "Test OTP received",
+        description: `Your code is ${testOtp}.`,
+      });
+    }
 
+    if (import.meta.env.DEV && testOtp) {
       if (!autoVerifyStarted.current) {
         const timer = window.setTimeout(() => {
           autoVerifyStarted.current = true;
-          void handleVerifyOtp(String(developmentOtp));
+          void handleVerifyOtp(String(testOtp));
         }, 0);
         return () => window.clearTimeout(timer);
       }
     }
-  }, [developmentOtp, handleVerifyOtp, navigate, phone, toast]);
+  }, [testOtp, handleVerifyOtp, navigate, phone, toast]);
 
   return (
     <MobileFrame>
@@ -96,6 +94,12 @@ const OTP = () => {
         <p className="mb-5 text-center text-sm text-gray-600">
           Enter the 6-digit code sent to your phone.
         </p>
+
+        {testOtp && (
+          <p className="mb-4 rounded-lg bg-blue-50 p-3 text-center text-sm text-blue-800">
+            Test OTP: <strong className="select-all">{testOtp}</strong>
+          </p>
+        )}
 
         <input
           type="text"

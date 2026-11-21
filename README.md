@@ -7,6 +7,14 @@
 - `src/components/` contains reusable UI, common widgets, and shared layouts.
 - `src/api/` contains backend and ML clients. Contexts, hooks, and shared utilities live in `src/contexts/`, `src/hooks/`, and `src/lib/`.
 
+## Shareable Vercel demo
+
+Import this frontend repository in Vercel with the Vite preset. Set
+`VITE_DEMO_MODE=true` for the deployment. Use `npm run build` and the `dist`
+output directory. The demo opens Trade Seekho and includes learning modules,
+the daily quiz, and simulated market prices. It runs without an API URL or
+credentials. The included Vercel rewrite supports opening demo routes directly.
+
 ## ML prediction service
 
 The frontend connects to the FastAPI ML service at `http://localhost:8000` by

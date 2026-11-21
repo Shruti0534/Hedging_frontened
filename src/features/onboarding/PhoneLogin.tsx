@@ -37,7 +37,7 @@ const PhoneLogin = () => {
           navigate("/otp", {
             state: {
               phone: formattedPhone,
-              developmentOtp: res.data.developmentOtp,
+              testOtp: res.data.testOtp,
             },
           });
         }, 3000);
