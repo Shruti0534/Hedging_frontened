@@ -1,4 +1,5 @@
 // src/api/trader.ts
+import { mlApiUrl } from "./mlUrl";
 
 // 1. Define the Input Type (Must match your Python Request Model)
 export interface TraderInput {
@@ -17,10 +18,8 @@ export interface TraderInput {
   }
   
   // 3. The Fetch Function
-  const API_URL = import.meta.env.VITE_ML_URL; // Ensure this matches your FastAPI port
-  
   export const getTraderPrediction = async (input: TraderInput): Promise<TraderResponse> => {
-    const response = await fetch(`${API_URL}/predict_trade_price`, {
+    const response = await fetch(`${mlApiUrl}/predict_trade_price`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 
@@ -9,40 +9,41 @@ import { CropProvider } from "@/contexts/CropContext";
 import { MarketPriceProvider } from "@/contexts/MarketPriceContext";
 
 // Buyer components
-import BuyerLayout from "./components/buyer/BuyerLayout";
-import Dash from "./components/buyer/Dash";
-import Orders from "./components/buyer/Order";
-import BuyerProfile from "./components/buyer/BuyerProfile";
+import BuyerLayout from "./features/buyer/BuyerLayout";
+import Dash from "./features/buyer/Dash";
+import Orders from "./features/buyer/Order";
+import BuyerProfile from "./features/buyer/BuyerProfile";
 
 // Seekho components
-import SeekhoLayout from "./components/layout/SeekhoLayout";
-import Seekho from "./pages/Seekho";
-import ModulePage from "./components/seekho/ModulePage";
-import { DailyQuiz } from "./components/seekho/DailyQuizPage";
-import Seekhodash from "./components/seekho/Seekhodash";
+import SeekhoLayout from "./features/seekho/SeekhoLayout";
+import Seekho from "./features/seekho/pages/Seekho";
+import ModulePage from "./features/seekho/ModulePage";
+import { DailyQuiz } from "./features/seekho/DailyQuizPage";
+import Seekhodash from "./features/seekho/Seekhodash";
 
 // Other pages
-import Front from "./components/Front";
-import Language from "./components/Language";
-import Login from "./components/Login";
-import OTP from "./components/verifyOtp";
-import Signup from "./components/Signup";
-import Selection from "./components/Selection";
+import Front from "./features/onboarding/Front";
+import Language from "./features/onboarding/Language";
+import PhoneLogin from "./features/onboarding/PhoneLogin";
+import OTP from "./features/onboarding/verifyOtp";
+import Selection from "./features/onboarding/Selection";
+import Signup from "./features/onboarding/Signup";
+import Micc from "./components/common/Mic";
 
-import Predictor from "./pages/Predictor";
-import Crop_Predictor from "./components/hedge/crop_prediction";
-import TraderPredictor from "./pages/Trade";
+import Predictor from "./features/forecasting/pages/Predictor";
+import Crop_Predictor from "./features/forecasting/pages/crop_prediction";
+import TraderPredictor from "./features/forecasting/pages/Trade";
 
 import AppLayout from "./components/layout/Layout";
-import Dashboard from "./pages/Dashboard";
-import Markets from "./pages/Markets";
-import Hedge from "./pages/Hedge";
-import Contracts from "./pages/Contracts";
-import Alerts from "./pages/Alerts";
-import Learn from "./pages/Learn";
-import Profile from "./pages/Profile";
+import Dashboard from "./features/dashboard/pages/Dashboard";
+import Markets from "./features/markets/pages/Markets";
+import Hedge from "./features/hedge/pages/Hedge";
+import Contracts from "./features/contracts/pages/Contracts";
+import Alerts from "./features/alerts/pages/Alerts";
+import Learn from "./features/learn/pages/Learn";
+import Profile from "./features/dashboard/pages/Profile";
 import NotFound from "./pages/not-found";
-import Mode from "./components/Mode";
+import Mode from "./features/onboarding/Mode";
 
 export default function App() {
   return (
@@ -54,14 +55,16 @@ export default function App() {
               <BrowserRouter>
                 {/* Toaster should be inside providers but can be anywhere in Router */}
                 <Toaster />
+                <Micc />
                 
                 <Routes>
                   {/* ==========================
                       Public / Auth Routes 
                      ========================== */}
                   <Route path="/" element={<Front />} />
-                  <Route path="/login" element={<Login />} />
+                  <Route path="/login" element={<PhoneLogin />} />
                   <Route path="/signup" element={<Signup />} />
+                  <Route path="/phone-login" element={<PhoneLogin />} />
                   <Route path="/otp" element={<OTP />} />
                   <Route path="/selection" element={<Selection />} />
                   <Route path="/language" element={<Language />} />

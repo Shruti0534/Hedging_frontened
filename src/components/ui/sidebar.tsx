@@ -117,7 +117,7 @@ const toggleSidebar = React.useCallback(() => {
 
   const state = open ? "expanded" : "collapsed"
 
-  const contextValue = React.useMemo(
+  const contextValue = React.useMemo<SidebarContextProps>(
     () => ({
       state,
       open,

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import AppSidebar from "../app-sidebar";
+import AppSidebar from "./app-sidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { LanguageToggle } from "@/components/common/LanguageToggle";
 
@@ -16,7 +16,7 @@ export default function AppLayout() {
         <AppSidebar />
 
         <div className="flex flex-col flex-1">
-          <header className="flex items-center justify-between p-4 border-b">
+          <header className="flex items-center justify-between p-4 pr-16 border-b">
             <SidebarTrigger />
             <LanguageToggle />
           </header>

@@ -1,9 +1,10 @@
 import axios from "axios";
+import { backendApiUrl } from "./backendUrl";
 
 export const approveByFPO = async (contractId: string, fpoId: string) => {
   try {
     const res = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/contracts/approve-fpo`,
+      backendApiUrl("contracts/approve-fpo"),
       {
         contractId,
         fpoId

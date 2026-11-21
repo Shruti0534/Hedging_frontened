@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { GrLanguage } from "react-icons/gr";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { useLanguage } from "../../contexts/LanguageContext";
-import Micc from "../common/Mic";
 
 export default function MobileFrame({
   children,
@@ -22,7 +21,7 @@ export default function MobileFrame({
           {/* Header */}
           <div
             className="sticky top-0  w-full bg-white/95 backdrop-blur-sm 
-                     text-gray-900 px-4 py-3 flex  justify-between
+                     text-gray-900 px-4 pr-16 py-3 flex  justify-between
                      shadow-sm border-b border-gray-100"
           >
             {/* LEFT: Logo + Title */}
@@ -39,11 +38,6 @@ export default function MobileFrame({
 
             {/* RIGHT: Icons */}
             <div className="relative flex  gap-3">
-              {/* Mic */}
-              <div className="p-1 rounded-full ">
-                <Micc />
-              </div>
-
               {/* Notifications */}
               <button className="p-1 rounded-full hover:bg-gray-100 transition-colors">
                 <IoIosNotificationsOutline className="w-6 h-6 text-gray-700" />

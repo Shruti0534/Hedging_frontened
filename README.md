@@ -1,5 +1,18 @@
 # React + TypeScript + Vite
 
+## Source layout
+
+- `src/App.tsx` defines the routes and application providers.
+- `src/features/` groups screens and components by feature. Farmer sections have their route screens under each feature's `pages/` folder.
+- `src/components/` contains reusable UI, common widgets, and shared layouts.
+- `src/api/` contains backend and ML clients. Contexts, hooks, and shared utilities live in `src/contexts/`, `src/hooks/`, and `src/lib/`.
+
+## ML prediction service
+
+The frontend connects to the FastAPI ML service at `http://localhost:8000` by
+default. Set `VITE_ML_URL` in `.env` to override the service base URL, then
+restart the Vite dev server for the change to take effect.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

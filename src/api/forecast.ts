@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = import.meta.env.VITE_ML_URL;
+import { mlApiUrl } from "./mlUrl";
 // ---------- Types ----------
 export interface FormDataInput {
   state: string;
@@ -40,7 +40,7 @@ export async function getPredictionFromBackend(
 
   try {
     const res = await axios.post<PredictionResponse>(
-      `${API_URL}/predict`, 
+      `${mlApiUrl}/predict`,
       payload
     );
 

@@ -1,72 +1,132 @@
-import { useState, useRef } from "react"; 
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import { SystemMessage, HumanMessage } from "@langchain/core/messages";
-import { Mic, MicOff } from "lucide-react"; 
+import { useState, useRef } from "react";
+import { Mic, MicOff, X } from "lucide-react";
+import { backendApiUrl } from "../../api/backendUrl";
 
-const GPT_MODELS = [
-  "gemini-2.5-flash",
-  "gemini-2.5-pro",
-  "gemini-2.0-flash",     // fallback if 2.5 is unavailable
-];
-const SELECTED_MODEL = "gemini-2.5-flash"; 
+interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
 
-const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+interface SpeechRecognitionAlternative {
+  transcript: string;
+}
+
+interface SpeechRecognitionResult extends ArrayLike<SpeechRecognitionAlternative> {
+  isFinal: boolean;
+}
+
+interface SpeechRecognitionEvent extends Event {
+  results: ArrayLike<SpeechRecognitionResult>;
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string;
+}
+
+interface SpeechRecognitionInstance extends EventTarget {
+  lang: string;
+  continuous: boolean;
+  interimResults: boolean;
+  onstart: (() => void) | null;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: ((event: SpeechRecognitionErrorEvent) => void) | null;
+  onend: (() => void) | null;
+  start(): void;
+  stop(): void;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition?: new () => SpeechRecognitionInstance;
+    webkitSpeechRecognition?: new () => SpeechRecognitionInstance;
+  }
+}
 
 export default function Micc() {
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState<ChatMessage[]>([]);
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const recognitionRef = useRef(null);
-  const shouldSpeak = useRef(false); 
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
+  const shouldSpeak = useRef(false);
 
-  // Helper: Speak text
-  function speak(text) {
+  function speak(text: string) {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(utterance);
   }
 
-  // Updated send function: accepts optional text to allow auto-sending
-  async function send(textOverride = null) {
-    // Determine which text to use: the override (voice) or the state (typed)
-    // We check if textOverride is a string because onClick passes an event object
-    const userText = (typeof textOverride === 'string' ? textOverride : prompt).trim();
-    
+  async function send(textOverride?: string) {
+    const userText = (textOverride ?? prompt).trim();
     if (!userText) return;
 
     setPrompt("");
     setLoading(true);
 
-    const newHuman = { role: "user", content: userText };
-    setHistory((h) => [...h, newHuman]);
+    setHistory((messages) => [...messages, { role: "user", content: userText }]);
 
     const messages = [
-      new SystemMessage("You are a helpful assistant."),
-      ...history.map((m) => new HumanMessage(m.content)),
-      new HumanMessage(userText),
+      { role: "system", content: "You are a helpful assistant." },
+      ...history.slice(-20),
+      { role: "user", content: userText },
     ];
 
-    const llm = new ChatGoogleGenerativeAI({
-      model: SELECTED_MODEL,     
-      temperature: 0.5,
-      apiKey: GOOGLE_KEY,
-    });
-
     try {
-      const aiMsg = await llm.invoke(messages);
-      setHistory((h) => [...h, { role: "assistant", content: aiMsg.content }]);
-      
-      // Auto-speak if the flag is set
+      const response = await fetch(backendApiUrl("assistant/chat"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages }),
+      });
+      const responseText = await response.text();
+      let data: unknown;
+      try {
+        data = responseText ? JSON.parse(responseText) : null;
+      } catch {
+        const isHtml = responseText.trimStart().startsWith("<");
+        throw new Error(
+          isHtml
+            ? `Chat backend returned a web page instead of JSON (HTTP ${response.status}). Verify VITE_BACKEND_URL and restart the backend with the assistant route.`
+            : `Chat backend returned invalid JSON (HTTP ${response.status}).`
+        );
+      }
+
+      if (!response.ok) {
+        const errorMessage =
+          typeof data === "object" &&
+          data !== null &&
+          "message" in data &&
+          typeof data.message === "string"
+            ? data.message
+            : `AI assistant request failed (${response.status})`;
+        throw new Error(errorMessage);
+      }
+
+      if (
+        typeof data !== "object" ||
+        data === null ||
+        !("reply" in data) ||
+        typeof data.reply !== "string"
+      ) {
+        throw new Error("AI assistant returned an invalid response.");
+      }
+
+      const reply = data.reply;
+      setHistory((messages) => [...messages, { role: "assistant", content: reply }]);
+
       if (shouldSpeak.current) {
-        speak(aiMsg.content);
-        shouldSpeak.current = false; 
+        speak(reply);
+        shouldSpeak.current = false;
       }
     } catch (err) {
-      console.error("Gemini call failed", err);
-      setHistory((h) => [...h, { role: "assistant", content: `Error: ${err.message}` }]);
+      console.error("NVIDIA assistant request failed", err);
+      shouldSpeak.current = false;
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      setHistory((messages) => [
+        ...messages,
+        { role: "assistant", content: `Error: ${errorMessage}` },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -79,30 +139,29 @@ export default function Micc() {
       return;
     }
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
+    const SpeechRecognitionConstructor =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognitionConstructor) {
       alert("Your browser does not support the Web Speech API.");
       return;
     }
 
-    const recognition = new SpeechRecognition();
+    const recognition = new SpeechRecognitionConstructor();
     recognition.lang = "en-US";
-    recognition.continuous = false; 
-    recognition.interimResults = true; 
+    recognition.continuous = false;
+    recognition.interimResults = true;
 
-    // Variable to capture final text for auto-send
     let finalTranscript = "";
 
     recognition.onstart = () => setIsListening(true);
-    
+
     recognition.onresult = (event) => {
       const transcript = Array.from(event.results)
-        .map(result => result[0])
-        .map(result => result.transcript)
-        .join('');
-      
-      finalTranscript = transcript; // Store it for onend
-      setPrompt(transcript); // Update UI so user sees what they said
+        .map((result) => result[0]?.transcript ?? "")
+        .join("");
+
+      finalTranscript = transcript;
+      setPrompt(transcript);
     };
 
     recognition.onerror = (event) => {
@@ -110,12 +169,11 @@ export default function Micc() {
       setIsListening(false);
     };
 
-    // When speech ends, automatically send the captured text
     recognition.onend = () => {
       setIsListening(false);
       if (finalTranscript) {
-        shouldSpeak.current = true; // Enable voice output for the reply
-        send(finalTranscript);      // Trigger send immediately
+        shouldSpeak.current = true;
+        void send(finalTranscript);
       }
     };
 
@@ -124,84 +182,97 @@ export default function Micc() {
   };
 
   return (
-    <div className="max-w-lg mx-auto ">
-   
+    <>
+      <button
+        type="button"
+        aria-label="Open AI voice chat"
+        onClick={() => {
+          setIsModalOpen(true);
+          if (!isListening) toggleListening();
+        }}
+        className="fixed top-3 right-3 z-[70] flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition hover:bg-blue-700"
+      >
+        <Mic size={20} />
+      </button>
 
-     
-      <div className="flex ">
-       
-        
-      {/* Mic Button Floating in Center */}
-<div className="flex justify-center ">
-  <button
-    onClick={() => {
-      setIsModalOpen(true);
-      toggleListening();   // starts voice recognition
-    }}
-    className=" hover:bg-blue-700  rounded-full shadow-lg"
-  >
-    <Mic size={28} />
-  </button>
-</div>
-{isModalOpen && (
-  <div className="fixed h-screen inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center">
-    <div className="bg-white w-full max-w-lg rounded-xl p-4 shadow-xl mx-4">
-
-      {/* Close Button */}
-      <div className="flex justify-end">
-        <button
-          onClick={() => setIsModalOpen(false)}
-          className="text-gray-600 hover:text-gray-900"
-        >
-          ✖
-        </button>
-      </div>
-
-      {/* Chat Section */}
-      <div className="h-80 overflow-y-auto bg-gray-100 rounded-lg p-3 mb-4">
-        {history.map((m, i) => (
-          <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-            <div className={`${m.role === "user" ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-800"} px-3 py-2 rounded-lg mb-1 max-w-xs`}>
-              {m.content}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-label="AI voice chat"
+            className="relative z-[101] flex w-full max-w-lg flex-col rounded-xl bg-white p-4 shadow-xl"
+          >
+            <div className="mb-3 flex justify-end">
+              <button
+                type="button"
+                aria-label="Close AI voice chat"
+                onClick={() => {
+                  recognitionRef.current?.stop();
+                  setIsListening(false);
+                  setIsModalOpen(false);
+                }}
+                className="rounded-full p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+              >
+                <X size={20} />
+              </button>
             </div>
-          </div>
-        ))}
-        {loading && <p className="italic text-center text-gray-500">Thinking…</p>}
-      </div>
 
-      {/* Input + Send */}
-      <div className="flex items-center space-x-2">
-        <input
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && send()}
-          className="flex-grow border rounded-md px-3 py-2"
-          placeholder="Say or type something..."
-        />
-        <button
-          onClick={() => send()}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
-        >
-          Send
-        </button>
+            <div className="mb-4 h-80 overflow-y-auto rounded-lg bg-gray-100 p-3">
+              {history.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                >
+                  <div
+                    className={`mb-1 max-w-xs rounded-lg px-3 py-2 ${
+                      message.role === "user"
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-300 text-gray-800"
+                    }`}
+                  >
+                    {message.content}
+                  </div>
+                </div>
+              ))}
+              {loading && (
+                <p className="text-center italic text-gray-500">Thinking…</p>
+              )}
+            </div>
 
-        <button
-          onClick={toggleListening}
-          className={`p-2 rounded-md text-white ${
-            isListening ? "bg-red-500" : "bg-gray-700"
-          }`}
-        >
-          {isListening ? <MicOff size={20} /> : <Mic size={20} />}
-        </button>
-      </div>
+            <div className="flex items-center gap-2">
+              <input
+                value={prompt}
+                onChange={(event) => setPrompt(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") void send();
+                }}
+                className="min-w-0 flex-grow rounded-md border px-3 py-2"
+                placeholder="Say or type something..."
+              />
+              <button
+                type="button"
+                onClick={() => void send()}
+                disabled={loading}
+                className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
+              >
+                Send
+              </button>
 
-    </div>
-  </div>
-)}
-
-
-      </div>
-      
-    </div>
+              <button
+                type="button"
+                aria-label={isListening ? "Stop voice input" : "Start voice input"}
+                onClick={toggleListening}
+                className={`rounded-md p-2 text-white ${
+                  isListening ? "bg-red-500" : "bg-gray-700"
+                }`}
+              >
+                {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
+    </>
   );
 }
