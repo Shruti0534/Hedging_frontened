@@ -76,25 +76,25 @@ export function ForecastWidget({
                 <AreaChart data={[...historicalData.slice(-7), ...forecast7d]}>
                   <defs>
                     <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0} />
+                      <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                   <XAxis 
                     dataKey="date" 
-                    stroke="hsl(var(--muted-foreground))"
+                    stroke="var(--muted-foreground)"
                     fontSize={12}
                   />
                   <YAxis 
-                    stroke="hsl(var(--muted-foreground))"
+                    stroke="var(--muted-foreground)"
                     fontSize={12}
                     tickFormatter={(value) => `₹${value}`}
                   />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
-                      border: '1px solid hsl(var(--border))',
+                      backgroundColor: 'var(--card)',
+                      border: '1px solid var(--border)',
                       borderRadius: '6px'
                     }}
                     formatter={(value: number) => [`₹${value}`, 'Price']}
@@ -102,17 +102,17 @@ export function ForecastWidget({
                   <Area 
                     type="monotone" 
                     dataKey="price" 
-                    stroke="hsl(var(--chart-1))" 
+                    stroke="var(--chart-1)"
                     fill="url(#colorPrice)"
                     strokeWidth={2}
                   />
                   <Line 
                     type="monotone" 
                     dataKey="predicted" 
-                    stroke="hsl(var(--chart-2))" 
+                    stroke="var(--chart-2)"
                     strokeWidth={2}
                     strokeDasharray="5 5"
-                    dot={{ fill: 'hsl(var(--chart-2))' }}
+                    dot={{ fill: 'var(--chart-2)' }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -136,19 +136,19 @@ export function ForecastWidget({
                 <AreaChart data={[...historicalData.slice(-14), ...forecast14d]}>
                   <defs>
                     <linearGradient id="colorPrice14" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0} />
+                      <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickFormatter={(value) => `₹${value}`} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                  <XAxis dataKey="date" stroke="var(--muted-foreground)" fontSize={12} />
+                  <YAxis stroke="var(--muted-foreground)" fontSize={12} tickFormatter={(value) => `₹${value}`} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '6px' }}
+                    contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '6px' }}
                     formatter={(value: number) => [`₹${value}`, 'Price']}
                   />
-                  <Area type="monotone" dataKey="price" stroke="hsl(var(--chart-1))" fill="url(#colorPrice14)" strokeWidth={2} />
-                  <Line type="monotone" dataKey="predicted" stroke="hsl(var(--chart-2))" strokeWidth={2} strokeDasharray="5 5" />
+                  <Area type="monotone" dataKey="price" stroke="var(--chart-1)" fill="url(#colorPrice14)" strokeWidth={2} />
+                  <Line type="monotone" dataKey="predicted" stroke="var(--chart-2)" strokeWidth={2} strokeDasharray="5 5" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -160,19 +160,19 @@ export function ForecastWidget({
                 <AreaChart data={[...historicalData.slice(-30), ...forecast30d]}>
                   <defs>
                     <linearGradient id="colorPrice30" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0} />
+                      <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickFormatter={(value) => `₹${value}`} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                  <XAxis dataKey="date" stroke="var(--muted-foreground)" fontSize={12} />
+                  <YAxis stroke="var(--muted-foreground)" fontSize={12} tickFormatter={(value) => `₹${value}`} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '6px' }}
+                    contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '6px' }}
                     formatter={(value: number) => [`₹${value}`, 'Price']}
                   />
-                  <Area type="monotone" dataKey="price" stroke="hsl(var(--chart-1))" fill="url(#colorPrice30)" strokeWidth={2} />
-                  <Line type="monotone" dataKey="predicted" stroke="hsl(var(--chart-2))" strokeWidth={2} strokeDasharray="5 5" />
+                  <Area type="monotone" dataKey="price" stroke="var(--chart-1)" fill="url(#colorPrice30)" strokeWidth={2} />
+                  <Line type="monotone" dataKey="predicted" stroke="var(--chart-2)" strokeWidth={2} strokeDasharray="5 5" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>

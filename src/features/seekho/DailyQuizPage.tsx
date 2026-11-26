@@ -104,7 +104,7 @@ return ( <div className="max-w-xl mx-auto p-6 bg-background/90 rounded-2xl shado
 ```
       <Progress value={progressValue} indicatorClassName="gradient-gold h-3 rounded-full mb-6" />
 
-      <div className="mb-4 p-4 bg-white/80 rounded-xl shadow hover:shadow-lg transition-shadow">
+      <div className="mb-4 p-4 bg-card/80 rounded-xl shadow hover:shadow-lg transition-shadow">
         <p className="text-foreground font-semibold text-md mb-4">
           Q{current + 1}. {quizData[current].question}
         </p>
@@ -112,9 +112,9 @@ return ( <div className="max-w-xl mx-auto p-6 bg-background/90 rounded-2xl shado
           {quizData[current].options.map((option, idx) => {
             const isCorrect = quizData[current].answer === idx;
             const isSelected = selected === idx;
-            let bgClass = "bg-white hover:bg-primary/10";
+            let bgClass = "bg-card hover:bg-primary/10";
             if (showAnswer) {
-              if (isCorrect) bgClass = "bg-green-200 border-green-500";
+              if (isCorrect) bgClass = "bg-accent border-ring";
               else if (isSelected && !isCorrect) bgClass = "bg-red-200 border-red-500";
             } else if (isSelected) {
               bgClass = "bg-primary/20 border-primary";
@@ -128,7 +128,7 @@ return ( <div className="max-w-xl mx-auto p-6 bg-background/90 rounded-2xl shado
                 disabled={showAnswer}
               >
                 <div className="flex items-center gap-2">
-                  {showAnswer && isCorrect && <CheckCircle className="w-5 h-5 text-green-600" />}
+                  {showAnswer && isCorrect && <CheckCircle className="w-5 h-5 text-accent-foreground" />}
                   {showAnswer && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-red-600" />}
                   <span>{option}</span>
                 </div>

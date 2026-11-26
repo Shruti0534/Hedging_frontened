@@ -9,7 +9,7 @@ export default function BuyerSidebar() {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col w-64 bg-gray-100 border-r p-4">
+    <aside className="hidden md:flex flex-col w-64 bg-muted border-r p-4">
       <div className="mb-6 font-bold text-xl">Buyer Panel</div>
       <nav className="flex flex-col gap-2">
         {links.map(link => (
@@ -17,7 +17,7 @@ export default function BuyerSidebar() {
             key={link.path}
             to={link.path}
             className={({ isActive }) =>
-              `flex items-center gap-2 p-2 rounded hover:bg-gray-200 ${isActive ? "bg-gray-300 font-semibold" : ""}`
+              `flex items-center gap-2 p-2 rounded hover:bg-secondary ${isActive ? "bg-border font-semibold" : ""}`
             }
           >
             {link.icon} {link.name}

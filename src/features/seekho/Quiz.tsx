@@ -50,9 +50,9 @@ Q{current + 1}: {question.question} </h3>
     {question.options.map((opt, idx) => {
       const isCorrect = idx === question.answer;
       const isSelected = idx === selected;
-      let bgColor = "bg-white";
+      let bgColor = "bg-card";
       if (selected !== null) {
-        if (isCorrect) bgColor = "bg-green-200";
+        if (isCorrect) bgColor = "bg-accent";
         else if (isSelected && !isCorrect) bgColor = "bg-red-200";
       }
 
@@ -61,7 +61,7 @@ Q{current + 1}: {question.question} </h3>
           key={idx}
           onClick={() => handleOptionClick(idx)}
           disabled={selected !== null}
-          className={`text-left p-2 border rounded-md hover:bg-gray-100 transition ${bgColor}`}
+          className={`text-left p-2 border rounded-md hover:bg-muted transition ${bgColor}`}
         >
           {opt}
         </button>

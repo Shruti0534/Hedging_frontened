@@ -190,7 +190,7 @@ export default function Micc() {
           setIsModalOpen(true);
           if (!isListening) toggleListening();
         }}
-        className="fixed top-3 right-3 z-[70] flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition hover:bg-blue-700"
+        className="fixed top-3 right-3 z-[70] flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition hover:bg-primary/90"
       >
         <Mic size={20} />
       </button>
@@ -201,7 +201,7 @@ export default function Micc() {
             role="dialog"
             aria-modal="true"
             aria-label="AI voice chat"
-            className="relative z-[101] flex w-full max-w-lg flex-col rounded-xl bg-white p-4 shadow-xl"
+            className="relative z-[101] flex w-full max-w-lg flex-col rounded-xl bg-card p-4 shadow-xl"
           >
             <div className="mb-3 flex justify-end">
               <button
@@ -212,13 +212,13 @@ export default function Micc() {
                   setIsListening(false);
                   setIsModalOpen(false);
                 }}
-                className="rounded-full p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                className="rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 <X size={20} />
               </button>
             </div>
 
-            <div className="mb-4 h-80 overflow-y-auto rounded-lg bg-gray-100 p-3">
+            <div className="mb-4 h-80 overflow-y-auto rounded-lg bg-muted p-3">
               {history.map((message, index) => (
                 <div
                   key={index}
@@ -227,8 +227,8 @@ export default function Micc() {
                   <div
                     className={`mb-1 max-w-xs rounded-lg px-3 py-2 ${
                       message.role === "user"
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-300 text-gray-800"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-border text-foreground"
                     }`}
                   >
                     {message.content}
@@ -236,7 +236,7 @@ export default function Micc() {
                 </div>
               ))}
               {loading && (
-                <p className="text-center italic text-gray-500">Thinking…</p>
+                <p className="text-center italic text-muted-foreground">Thinking…</p>
               )}
             </div>
 
@@ -254,7 +254,7 @@ export default function Micc() {
                 type="button"
                 onClick={() => void send()}
                 disabled={loading}
-                className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
+                className="rounded-md bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
               >
                 Send
               </button>
@@ -263,8 +263,8 @@ export default function Micc() {
                 type="button"
                 aria-label={isListening ? "Stop voice input" : "Start voice input"}
                 onClick={toggleListening}
-                className={`rounded-md p-2 text-white ${
-                  isListening ? "bg-red-500" : "bg-gray-700"
+                className={`rounded-md p-2 \${
+                  isListening ? "bg-red-500 text-white" : "bg-primary text-primary-foreground"
                 }`}
               >
                 {isListening ? <MicOff size={20} /> : <Mic size={20} />}

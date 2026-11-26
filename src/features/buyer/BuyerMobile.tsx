@@ -3,13 +3,13 @@ import { NavLink } from "react-router-dom";
 
 export default function BuyerMobileNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md p-3 flex justify-around md:hidden z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t shadow-md p-3 flex justify-around md:hidden z-50">
 
       {/* Dashboard */}
       <NavLink
         to="/buyer"
         className={({ isActive }) =>
-          "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+          "flex flex-col items-center " + (isActive ? "text-primary" : "text-muted-foreground")
         }
       >
         <Home className="w-6 h-6" />
@@ -20,7 +20,7 @@ export default function BuyerMobileNav() {
       <NavLink
         to="/buyer/orders"
         className={({ isActive }) =>
-          "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+          "flex flex-col items-center " + (isActive ? "text-primary" : "text-muted-foreground")
         }
       >
         <FileText className="w-6 h-6" />
@@ -31,7 +31,7 @@ export default function BuyerMobileNav() {
       <NavLink
         to="/buyer/profile"
         className={({ isActive }) =>
-          "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+          "flex flex-col items-center " + (isActive ? "text-primary" : "text-muted-foreground")
         }
       >
         <User className="w-6 h-6" />
@@ -45,7 +45,7 @@ export default function BuyerMobileNav() {
       <NavLink
         to="/"
         className={({ isActive }) =>
-          "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+          "flex flex-col items-center " + (isActive ? "text-primary" : "text-muted-foreground")
         }
       >
         <LogOut className="w-6 h-6" />

@@ -73,12 +73,12 @@ export default function Crop_Predictor() {
   }
 
   const selectClass =
-    "flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm shadow-sm hover:border-gray-400 transition-all focus:outline-none focus:ring-2 focus:ring-black/40";
+    "flex h-10 w-full rounded-lg border border-input bg-card px-3 text-sm shadow-sm hover:border-input transition-all focus:outline-none focus:ring-2 focus:ring-ring/40";
 
   return (
     <div className="w-full max-w-xl">
       {/* --- HORIZONTAL MINI BAR --- */}
-      <div className="flex items-center gap-3 bg-white">
+      <div className="flex items-center gap-3 bg-card">
         {/* Dropdown */}
         <select
           className={`${selectClass} w-[230px]`}
@@ -99,7 +99,7 @@ export default function Crop_Predictor() {
         <button
           onClick={handlePredict}
           disabled={loading}
-          className="h-10 rounded-lg bg-black px-6 text-sm font-medium text-white shadow hover:bg-gray-800 active:scale-[.98] transition disabled:opacity-50"
+          className="h-10 rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90 active:scale-[.98] transition disabled:opacity-50"
         >
           {loading ? "…" : "Predict"}
         </button>
@@ -114,36 +114,36 @@ export default function Crop_Predictor() {
 
       {/* Results Card */}
       {result && (
-        <div className="mt-5 w-full max-w-md rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <h3 className="font-semibold text-gray-900 mb-4">Forecast Results</h3>
+        <div className="mt-5 w-full max-w-md rounded-xl border border-border bg-card p-5 shadow-sm">
+          <h3 className="font-semibold text-foreground mb-4">Forecast Results</h3>
           
           {/* Current Price Block */}
-          <div className="mb-4 p-4 bg-gray-50 border border-gray-100 rounded-xl flex flex-col justify-center">
-            <p className="text-sm text-gray-500">Current Market Price</p>
-            <p className="text-2xl font-bold text-gray-900">₹{currentPrice || "—"}</p>
+          <div className="mb-4 p-4 bg-background border border-border rounded-xl flex flex-col justify-center">
+            <p className="text-sm text-muted-foreground">Current Market Price</p>
+            <p className="text-2xl font-bold text-foreground">₹{currentPrice || "—"}</p>
           </div>
 
           {/* Grid for Future Prices */}
           <div className="grid grid-cols-2 gap-4 mb-4">
-            <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 text-center shadow-sm">
-              <p className="text-xs text-gray-500 uppercase tracking-wide">7 Days</p>
-              <p className="text-2xl font-bold text-gray-900">
+            <div className="p-4 bg-background rounded-xl border border-border text-center shadow-sm">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide">7 Days</p>
+              <p className="text-2xl font-bold text-foreground">
                 ₹{result.predicted_7_day_price}
               </p>
             </div>
 
-            <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 text-center shadow-sm">
-              <p className="text-xs text-gray-500 uppercase tracking-wide">15 Days</p>
-              <p className="text-2xl font-bold text-gray-900">
+            <div className="p-4 bg-background rounded-xl border border-border text-center shadow-sm">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide">15 Days</p>
+              <p className="text-2xl font-bold text-foreground">
                 ₹{result.predicted_15_day_price}
               </p>
             </div>
           </div>
 
           {/* Hedging Suggestion (Full Width) */}
-          <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
-            <p className="font-semibold text-gray-800 mb-1">Hedging Suggestion</p>
-            <p className="text-gray-700 text-sm">
+          <div className="p-4 bg-gold border border-gold-foreground/25 rounded-xl">
+            <p className="font-semibold text-foreground mb-1">Hedging Suggestion</p>
+            <p className="text-foreground text-sm">
               {getHedgeAdvice(
                 currentPrice,
                 result.predicted_7_day_price,

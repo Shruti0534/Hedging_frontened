@@ -19,7 +19,9 @@ export function PriceChart({ title, data }: PriceChartProps) {
       type: "line",
       height: 350,
       toolbar: { show: false },
+      foreColor: "var(--muted-foreground)",
     },
+    colors: ["var(--chart-1)"],
     stroke: {
       width: 3,
       curve: "smooth",
@@ -37,7 +39,7 @@ export function PriceChart({ title, data }: PriceChartProps) {
       theme: "light",
     },
     grid: {
-      borderColor: "#eee",
+      borderColor: "var(--border)",
     },
     fill: {
       opacity: 0.3,
@@ -45,7 +47,7 @@ export function PriceChart({ title, data }: PriceChartProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl p-4 shadow-sm border">
+    <div className="bg-card rounded-xl p-4 shadow-sm border [&_.apexcharts-tooltip]:border-border [&_.apexcharts-tooltip]:bg-popover [&_.apexcharts-tooltip]:text-popover-foreground [&_.apexcharts-tooltip-title]:border-border [&_.apexcharts-tooltip-title]:bg-muted">
       <h2 className="text-xl font-semibold mb-2">{title}</h2>
       <ReactApexChart options={options} series={series} type="line" height={350} />
     </div>

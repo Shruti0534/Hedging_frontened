@@ -1,6 +1,32 @@
-import { ArrowRight, Languages } from "lucide-react";
+import { BarChart3, BookOpen, Check, FileCheck2, Languages } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../contexts/LanguageContext";
+
+const features = [
+  {
+    icon: BarChart3,
+    title: "Mandi price insights",
+    description: "Follow market prices and explore forecasts based on current data and past trends.",
+    color: "bg-accent text-accent-foreground",
+  },
+  {
+    icon: BookOpen,
+    title: "Learn at your pace",
+    description: "Build your trading knowledge with farmer lessons and multilingual AI guidance.",
+    color: "bg-gold text-gold-foreground",
+  },
+  {
+    icon: FileCheck2,
+    title: "Farmer–buyer contracts",
+    description: "Trade through blockchain-backed contracts between farmers and buyers.",
+    color: "bg-secondary text-secondary-foreground",
+  },
+];
+
+const languages = [
+  { value: "en", badge: "EN", label: "English", description: "Continue in English" },
+  { value: "hi", badge: "अ", label: "हिन्दी", description: "हिन्दी में जारी रखें" },
+] as const;
 
 const Front = () => {
   const navigate = useNavigate();
@@ -12,111 +38,95 @@ const Front = () => {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#f5f7ef] text-slate-900">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-emerald-200/40 blur-3xl" />
-        <div className="absolute -bottom-48 right-0 h-[34rem] w-[34rem] rounded-full bg-amber-100/70 blur-3xl" />
-      </div>
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="border-b border-border">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-3 sm:px-8 lg:px-12">
+          <div className="flex items-center gap-2.5 font-bold tracking-tight sm:text-lg">
+            <img src="/logoo.png" alt="" className="size-9 rounded-lg bg-card object-contain sm:size-10" />
+            Kisan Vyapaar
+          </div>
+          <a
+            href="#get-started"
+            className="shrink-0 rounded-full border border-input px-3.5 py-2 text-sm font-semibold transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring sm:px-5"
+          >
+            Get started
+          </a>
+        </div>
+      </header>
 
-      <div className="relative mx-auto flex min-h-screen w-full max-w-7xl items-center px-5 py-12 sm:px-8 lg:px-12">
-        <div className="grid w-full items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)] lg:gap-16">
-          <section className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-3 rounded-full border border-emerald-900/10 bg-white/80 px-4 py-2 shadow-sm">
-              <img
-                src="/logoo.png"
-                alt=""
-                className="h-10 w-10 object-contain"
-              />
-              <span className="text-sm font-bold tracking-wide text-emerald-950">
-                Kisan Vyapaar
-              </span>
-            </div>
+      <main className="mx-auto max-w-7xl px-5 pb-12 pt-5 sm:px-8 sm:pt-8 lg:px-12">
+        <div className="grid items-stretch gap-4 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:gap-5">
+          <section aria-labelledby="front-title" className="relative isolate flex min-h-[23rem] flex-col justify-end overflow-hidden rounded-[1.75rem] bg-[#173629] p-6 text-white sm:min-h-[29rem] sm:p-10 lg:p-11">
+            <img
+              src="/harvest-field.jpg"
+              alt=""
+              fetchPriority="high"
+              className="absolute inset-0 -z-20 size-full object-cover object-center"
+            />
+            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(12deg,#092317_4%,#102e20d9_37%,#102e2066_69%,#102e201a_100%)]" />
 
-            <div className="mx-auto mt-8 flex max-w-xl justify-center rounded-3xl bg-white/70 p-3 shadow-sm ring-1 ring-black/5 lg:mx-0 lg:justify-start">
-              <img
-                src="/project2.png"
-                alt="Trade Seekho: empowering farmers and connecting markets"
-                className="h-48 w-full object-contain sm:h-56"
-              />
-            </div>
-
-            <p className="mt-8 text-sm font-bold uppercase tracking-[0.22em] text-emerald-700">
-              Learn. Trade. Grow.
-            </p>
-            <h1 className="mt-3 text-4xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              Trade Seekho
-              <span className="mt-2 block text-2xl font-semibold text-slate-600 sm:text-3xl">
-                Empowering Farmers, Connecting Markets
-              </span>
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[#e6efc1]">Trade Seekho</p>
+            <h1 id="front-title" className="max-w-[13ch] font-serif text-5xl leading-[0.98] tracking-[-0.045em] sm:text-7xl">
+              From harvest <em className="text-[#e5eea8]">to market.</em>
             </h1>
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-[#f2f6e9] sm:text-lg">
+              Learn how crop markets work, follow mandi prices, and trade with confidence. Built for farmers, buyers, and farmer producer organizations.
+            </p>
           </section>
 
           <section
+            id="get-started"
             aria-labelledby="language-heading"
-            className="mx-auto w-full max-w-lg rounded-3xl border border-white bg-white p-6 shadow-xl shadow-emerald-950/10 sm:p-9"
+            className="flex scroll-mt-4 flex-col justify-center rounded-[1.75rem] border border-border bg-card p-6 sm:p-9"
           >
-            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800">
-              <Languages size={24} aria-hidden="true" />
-            </div>
-
-            <p className="text-sm font-semibold text-emerald-700">Get started</p>
-            <h2
-              id="language-heading"
-              className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl"
-            >
+            <span className="mb-5 flex size-11 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+              <Languages size={21} aria-hidden="true" />
+            </span>
+            <h2 id="language-heading" className="text-2xl font-bold tracking-tight sm:text-3xl">
               Choose your language
             </h2>
-            <p className="mt-2 text-slate-500">अपनी भाषा चुनें</p>
+            <p lang="hi" className="mt-1.5 text-muted-foreground">अपनी भाषा चुनें</p>
 
-            <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              <button
-                type="button"
-                aria-pressed={language === "en"}
-                onClick={() => selectLanguage("en")}
-                className="group flex min-h-20 items-center justify-between rounded-2xl border border-slate-200 px-4 py-4 text-left transition hover:border-emerald-700 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"
-              >
-                <span className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 font-bold text-emerald-900">
-                    EN
+            <div className="mt-6 grid gap-3">
+              {languages.map(({ value, badge, label, description }) => (
+                <button
+                  key={value}
+                  type="button"
+                  lang={value}
+                  aria-pressed={language === value}
+                  onClick={() => selectLanguage(value)}
+                  className="group flex w-full items-center gap-3 rounded-2xl border border-border px-3.5 py-3 text-left transition-colors hover:border-ring hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-ring aria-pressed:bg-muted"
+                >
+                  <span aria-hidden="true" className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary font-bold text-primary-foreground">
+                    {badge}
                   </span>
-                  <span>
-                    <span className="block font-semibold text-slate-900">English</span>
-                    <span className="text-sm text-slate-500">Continue in English</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-bold">{label}</span>
+                    <span className="block text-sm text-muted-foreground">{description}</span>
                   </span>
-                </span>
-                <ArrowRight
-                  size={18}
-                  aria-hidden="true"
-                  className="text-slate-400 transition group-hover:translate-x-1 group-hover:text-emerald-800"
-                />
-              </button>
-
-              <button
-                type="button"
-                aria-pressed={language === "hi"}
-                onClick={() => selectLanguage("hi")}
-                className="group flex min-h-20 items-center justify-between rounded-2xl border border-slate-200 px-4 py-4 text-left transition hover:border-emerald-700 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"
-              >
-                <span className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-lg font-bold text-amber-900">
-                    हिं
-                  </span>
-                  <span>
-                    <span className="block font-semibold text-slate-900">हिन्दी</span>
-                    <span className="text-sm text-slate-500">हिन्दी में जारी रखें</span>
-                  </span>
-                </span>
-                <ArrowRight
-                  size={18}
-                  aria-hidden="true"
-                  className="text-slate-400 transition group-hover:translate-x-1 group-hover:text-emerald-800"
-                />
-              </button>
+                  {language === value && <Check size={18} aria-hidden="true" className="shrink-0 text-ring" />}
+                </button>
+              ))}
             </div>
           </section>
         </div>
-      </div>
-    </main>
+
+        <section aria-labelledby="features-heading" className="mt-8 sm:mt-10">
+          <h2 id="features-heading" className="mb-4 text-xl font-bold tracking-tight">What you can do</h2>
+          <div className="grid gap-3 sm:grid-cols-3 lg:gap-5">
+            {features.map(({ icon: Icon, title, description, color }) => (
+              <article key={title} className="rounded-2xl border border-border bg-card p-5">
+                <span className={`mb-3 flex size-10 items-center justify-center rounded-xl ${color}`}>
+                  <Icon size={19} aria-hidden="true" />
+                </span>
+                <h3 className="font-bold">{title}</h3>
+                <p className="mt-1.5 leading-relaxed text-muted-foreground">{description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
   );
 };
 

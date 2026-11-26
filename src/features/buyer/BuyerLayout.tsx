@@ -20,7 +20,7 @@ export default function BuyerLayout() {
         {/* MAIN CONTENT */}
         <div className="flex flex-col flex-1 min-h-0">
           {/* HEADER */}
-          <header className="flex-shrink-0 flex items-center justify-between p-4 pr-16 border-b bg-white z-10">
+          <header className="flex-shrink-0 flex items-center justify-between p-4 pr-16 border-b bg-card z-10">
             <SidebarTrigger />
             <LanguageToggle />
           </header>

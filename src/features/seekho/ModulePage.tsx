@@ -193,19 +193,19 @@ export default function ModulePage() {
         <a
           href={video.url}
           target="_blank"
-          className="flex items-center justify-center gap-2 text-primary border rounded-md py-2 px-3 hover:bg-primary hover:text-white transition w-full sm:w-auto"
+          className="flex items-center justify-center gap-2 text-primary border rounded-md py-2 px-3 hover:bg-primary hover:text-primary-foreground transition w-full sm:w-auto"
         >
           <Play className="w-4 h-4" /> Watch Video
         </a>
         <button
           onClick={() => setOpenRead(openRead === video.id ? null : video.id)}
-          className="flex items-center justify-center gap-2 text-primary border rounded-md py-2 px-3 hover:bg-primary hover:text-white transition w-full sm:w-auto"
+          className="flex items-center justify-center gap-2 text-primary border rounded-md py-2 px-3 hover:bg-primary hover:text-primary-foreground transition w-full sm:w-auto"
         >
           <BookOpen className="w-4 h-4" /> Read
         </button>
       </div>
       {openRead === video.id && (
-        <div className="mt-2 p-3 border rounded-md bg-gray-50 text-sm text-gray-800">
+        <div className="mt-2 p-3 border rounded-md bg-background text-sm text-foreground">
           {video.readUrl || "No content available."}
         </div>
       )}

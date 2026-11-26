@@ -60,8 +60,8 @@ const ContractList: FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-xl shadow-lg">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900">The past contracts</h1>
+    <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-card rounded-xl shadow-lg">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-foreground">The past contracts</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {mockContracts.map(contract => (

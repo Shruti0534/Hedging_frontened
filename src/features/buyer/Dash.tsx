@@ -61,7 +61,7 @@ const BuyerDash: FC = () => {
   const filteredContracts = contracts.filter(c => c.crop.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 md:p-8">
+    <div className="min-h-screen bg-background p-4 sm:p-6 md:p-8">
 
       {/* Page Header with Filter Buttons */}
       <PageHeader
@@ -80,7 +80,7 @@ const BuyerDash: FC = () => {
       />
 
       {/* Search */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-lg shadow-md mb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-card p-6 rounded-lg shadow-md mb-6">
         <div className="relative w-full md:w-1/3">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input 
@@ -93,10 +93,10 @@ const BuyerDash: FC = () => {
       </div>
 
       {/* Live Bids Ticker */}
-      <div className="flex items-center p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg text-sm mb-6 shadow-sm">
-        <Bell className="h-5 w-5 text-yellow-600 mr-3" />
-        <span className="font-bold text-yellow-800 mr-2">Live Bids Ticker:</span>
-        <span className="text-yellow-700">Real-time status | Sec-time status | Price bid</span>
+      <div className="flex items-center p-4 bg-gold border-l-4 border-gold-foreground rounded-lg text-sm mb-6 shadow-sm">
+        <Bell className="h-5 w-5 text-gold-foreground mr-3" />
+        <span className="font-bold text-gold-foreground mr-2">Live Bids Ticker:</span>
+        <span className="text-gold-foreground">Real-time status | Sec-time status | Price bid</span>
       </div>
 
       <Separator className="my-6" />
@@ -106,7 +106,7 @@ const BuyerDash: FC = () => {
         {filteredContracts.map(contract => (
           <ContractCard key={contract.id} contract={contract} onViewDetails={handleViewDetails} />
         ))}
-        {filteredContracts.length === 0 && <p className="text-center col-span-full text-gray-500">No contracts found.</p>}
+        {filteredContracts.length === 0 && <p className="text-center col-span-full text-muted-foreground">No contracts found.</p>}
       </div>
 
       {/* Dialog for creating contract */}

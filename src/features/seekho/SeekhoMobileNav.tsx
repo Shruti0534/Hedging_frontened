@@ -4,12 +4,12 @@ import { Sliders, LogOut } from "lucide-react";
 
 export default function SeekhoMobileNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md p-3 flex justify-around md:hidden z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t shadow-md p-3 flex justify-around md:hidden z-50">
       
       <NavLink
         to="/app/dashboard"
         className={({ isActive }) =>
-          "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+          "flex flex-col items-center " + (isActive ? "text-primary" : "text-muted-foreground")
         }
       >
         <Home className="w-6 h-6" />
@@ -19,7 +19,7 @@ export default function SeekhoMobileNav() {
       <NavLink
         to="/seekho"
         className={({ isActive }) =>
-          "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+          "flex flex-col items-center " + (isActive ? "text-primary" : "text-muted-foreground")
         }
       >
         <BookOpen className="w-6 h-6" />
@@ -29,7 +29,7 @@ export default function SeekhoMobileNav() {
       <NavLink
         to="/app/dashboard"
         className={({ isActive }) =>
-          "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+          "flex flex-col items-center " + (isActive ? "text-primary" : "text-muted-foreground")
         }
       >
         <Award className="w-6 h-6" />
@@ -38,7 +38,7 @@ export default function SeekhoMobileNav() {
       <NavLink
   to="/mode"
   className={({ isActive }) =>
-    "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+    "flex flex-col items-center " + (isActive ? "text-primary" : "text-muted-foreground")
   }
 >
   <Sliders className="w-6 h-6" />
@@ -47,7 +47,7 @@ export default function SeekhoMobileNav() {
 <NavLink
   to="/"
   className={({ isActive }) =>
-    "flex flex-col items-center " + (isActive ? "text-primary" : "text-gray-500")
+    "flex flex-col items-center " + (isActive ? "text-primary" : "text-muted-foreground")
   }
 >
   <LogOut className="w-6 h-6" />

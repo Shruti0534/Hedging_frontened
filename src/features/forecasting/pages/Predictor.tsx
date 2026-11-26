@@ -105,24 +105,24 @@ export default function Predictor() {
   
   // Reusable Label Component
   const Label = ({ children }: { children: React.ReactNode }) => (
-    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2 block text-gray-700">
+    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2 block text-foreground">
       {children}
     </label>
   );
 
   // Reusable Select Styling (mimicking shadcn Select)
-  const selectClass = "flex h-10 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all";
+  const selectClass = "flex h-10 w-full items-center justify-between rounded-md border border-input bg-card px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all";
 
   return (
     <div className="flex  p-4 font-sans">
-      <div className="w-full max-w-lg space-y-6 rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+      <div className="w-full max-w-lg space-y-6 rounded-xl border border-border bg-card p-8 shadow-sm">
         
         {/* Header */}
         <div className="space-y-2 text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
             Mandi Prices
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             Select your region and crop to generate AI-driven price predictions.
           </p>
         </div>
@@ -209,7 +209,7 @@ export default function Predictor() {
           <button
             onClick={handlePredict}
             disabled={loading}
-            className="w-full inline-flex items-center justify-center rounded-md bg-black px-4 py-2.5 text-sm font-medium text-white shadow transition-colors hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 mt-4"
+            className="w-full inline-flex items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 mt-4"
           >
             {loading ? (
               <>
@@ -234,22 +234,22 @@ export default function Predictor() {
 
         {/* RESULTS CARD */}
         {result && (
-          <div className="mt-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="mt-6 rounded-lg border border-border bg-card p-6 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-gray-900">Forecast Results</h3>
-              <span className="text-xs font-medium px-2.5 py-0.5 rounded bg-green-100 text-green-800">
+              <h3 className="font-semibold text-foreground">Forecast Results</h3>
+              <span className="text-xs font-medium px-2.5 py-0.5 rounded bg-accent text-accent-foreground">
                 AI Confidence: High
               </span>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 text-center">
-                <p className="text-xs text-gray-500 uppercase tracking-wide">7 Days</p>
-                <p className="text-2xl font-bold text-gray-900">₹{result.predicted_7_day_price}</p>
+              <div className="p-4 bg-background rounded-lg border border-border text-center">
+                <p className="text-xs text-muted-foreground uppercase tracking-wide">7 Days</p>
+                <p className="text-2xl font-bold text-foreground">₹{result.predicted_7_day_price}</p>
               </div>
-              <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 text-center">
-                <p className="text-xs text-gray-500 uppercase tracking-wide">15 Days</p>
-                <p className="text-2xl font-bold text-gray-900">₹{result.predicted_15_day_price}</p>
+              <div className="p-4 bg-background rounded-lg border border-border text-center">
+                <p className="text-xs text-muted-foreground uppercase tracking-wide">15 Days</p>
+                <p className="text-2xl font-bold text-foreground">₹{result.predicted_15_day_price}</p>
               </div>
             </div>
           </div>
